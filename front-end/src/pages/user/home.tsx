@@ -1,8 +1,8 @@
-import NavBar from '../../components/user/navBar'
-export default function Home() {
+
+export default function Home(): JSX.Element {
     return (
         <div>
-            <NavBar></NavBar>
+            
         </div>
     )
 }

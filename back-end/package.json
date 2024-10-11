@@ -1,0 +1,42 @@
+{
+  "name": "backend_prjct",
+  "version": "1.0.0",
+  "description": "When you're ready, start your application by running:\r `docker compose up --build`.",
+  "main": "server.js",
+  "scripts": {
+    "build": "npm tsc",
+    "start": "ts-node-dev ./src/server.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.10.5",
+    "@types/stripe": "^8.0.417",
+    "@types/ws": "^8.5.10",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
+    "multer": "^1.4.5-lts.1",
+    "ngx-socket-io": "^4.6.1",
+    "node": "^21.2.0",
+    "nodemon": "^3.0.2",
+    "socket.io": "^4.7.4",
+    "stripe": "^14.10.0",
+    "ts-node-dev": "^2.0.0",
+    "validator": "^13.11.0",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "keywords": []
+}

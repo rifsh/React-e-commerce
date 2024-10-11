@@ -1,21 +1,27 @@
 // import React from 'react'
-import './navBar.css'
+import { ImBooks } from "react-icons/im";
+import './navBar.css';
+import { Link } from "react-router-dom";
+
 
 export default function NavBar() {
     return (
-        <nav className="bg-opacity-10 bg-gray-200 px-4 py-[12px] sticky -top-1 z-50 shadow-lg shadow-gray-300">
+        <nav className="bg-opacity-10 px-4 py-[12px] w-full sticky top-0 shadow-lg shadow-gray-300">
             <div className="container mx-auto justify-between flex items-center">
-                <div className="text-black text-2xl font-bold me-[30px]">
-                    <a className="font-mono text-4xl">BOOKS</a>
+                <div className="text-black text-2xl font-bold me-[30px] flex items-center">
+                    <ImBooks className='me-3 text-4xl' />
+                    {/* <a className="font-mono text-4xl">BOOKS</a> */}
+                    <Link to={'/'} className="main-head font-mono text-4xl">Books</Link>
                 </div>
 
-                <div className="hidden md:flex space-x-6 md:items-center font-sans font-semibold">
+                <div className="hidden md:flex space-x-6 md:items-center font-sans font-semibold h-full py-1 px-2 rounded-xl">
                     <div >
                         <input
                             className="bg-gray-100 focus:outline-none border-2 border-gray-300 ps-2 pe-40 py-[13px] rounded-xl" type="text"
                             placeholder="Search Books" />
                     </div>
-                    <a className="text-black">All Books</a>
+                    {/* <a className="text-black">All Books</a> */}
+                    <Link to={'/all-products'}>All Books</Link>
 
                     <div className="flex flex-col items-center justify-center relative">
                         <p className="text-black font-semibold cursor-pointer">Categories</p>
@@ -34,7 +40,7 @@ export default function NavBar() {
                     </div >
 
                     <div className="relative">
-                        <a  className="text-black flex items-center">
+                        <a className="text-black flex items-center">
                             <p>Logout</p>
                             <i className='bx bx-log-out text-3xl'></i>
                         </a >

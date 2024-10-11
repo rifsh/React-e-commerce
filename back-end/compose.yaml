@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  monog_db:
+    container_name: book_data
+    image: mongo:latest
+    restart: always
+    volumes:
+      - monog_db:/data/db
+
+  nodejs_app:
+    build: .
+    ports:
+      - 3000:9000
+    environment:
+      PORT: 3000
+      LINK: mongodb+srv://rifshmuhammed:1cijhAanIjgYUcvL@cluster0.9ik2otk.mongodb.net/users?retryWrites=true&w=majority
+      DATABASE_UR: mongodb://monog_db:27017/users
+      USER: rifshmuhammed
+      PASSWORD: 1cijhAanIjgYUcvL
+      jwt_string: asd-qwe-asd-qwe
+      ADMIN_USRNAME: admin
+      ADMIN_PASSWORD: admin123
+      CLOUD_NAME: dgt8gzzif
+      API_KEY: 299227917626237
+      API_SECRET: Fbsxjn4KFelv3YVGLnlGg52h660
+      STRIPE_KEY: sk_test_51OUR9lSFPOgnK8Df2NRmW6gTLDgZmaCVVKnYPAbNGDAgicSfm4RQG8jhAKnRvTqwUxCUi1Ea2f43aPme6Gwm5Jan00WDHzDYfs
+    depends_on:
+      - monog_db
+
+volumes:
+    monog_db: {}
