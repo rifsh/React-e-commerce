@@ -8,6 +8,7 @@ import Landing from './pages/user/landing';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';  // To enable carousel functionality
 import ProductList from './pages/user/productList';
+import ViewProductPpage from './pages/user/view-product-page';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path='/' element={<Layout />}>
           <Route path='/' element={<Landing />} />
           <Route path='/all-products' element={<ProductList />} />
+          <Route path='/view-product/:id' element={<ViewProductPpage />} />
         </Route>
 
         <Route path='/auth' element={<AuthLayout />}>
