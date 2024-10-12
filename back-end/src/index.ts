@@ -9,7 +9,6 @@ import { CustomeError } from './utils/customerror';
 
 
 const app: Express = exp();
-// app.use(bodyparser);
 app.use(bodyparser.json())
 app.use(exp.json());
 app.use(cors())

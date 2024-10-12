@@ -36,7 +36,7 @@ function Landing() {
                 </div>
             </div>
 
-            <div className="flex-col items-center justify-center">
+            <div className="flex-col items-center justify-center my-5">
                 <h4 className="ms-10 mt-10 text-4xl font-extralight">Give the Gift of Good Fiction</h4>
                 <div className="flex items-center justify-center mt-4">
 

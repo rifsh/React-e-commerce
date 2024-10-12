@@ -4,19 +4,16 @@ import { Outlet } from "react-router-dom"
 
 function Layout() {
     return (
-        <div className="">
-            <div className="sticky top-q0">
-                <NavBar />
+        <div className="min-h-screen">
+            <div className="fixed top-0 z-50 w-full">
+                <NavBar/>
             </div>
-
-            <div className="">
+            <div className="mt-24">
                 <Outlet />
             </div>
-
-            <div className="">
-                <Footer />
-            </div>
+            <Footer />
         </div>
+
     )
 }
 
