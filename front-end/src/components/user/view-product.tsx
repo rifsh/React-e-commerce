@@ -3,7 +3,7 @@ import { InterfaceViewProductProps } from '../../model/interfaces/props-interfac
 
 
 
-const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
+const ViewProduct: React.FC<InterfaceViewProductProps> = () => {
     useEffect(() => {
 
     })

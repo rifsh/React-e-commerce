@@ -36,6 +36,7 @@ export const imgUpload = async (req: Request, res: Response, next: NextFunction)
             next(new CustomeError(err.message, 401));
         }
         try {
+            
             const result = await cloudin.uploader.upload(req.file.path, {
                 folder: "products"
             })

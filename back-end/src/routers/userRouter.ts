@@ -18,7 +18,7 @@ userRouter.post('/signup', userImgUpload, (userControllers.signUp))
     .get('/products_Id/:id', productController.productById)
     .get('/products-categories', productController.productByCatogory)
     .get('/products-search', productController.search)
-    // products_router
+// products_router
     .use(userRouteProtecter)
     .get('/user/:id', adminController.userById)
     .get('/:id/increment', productController.qundityIncre)

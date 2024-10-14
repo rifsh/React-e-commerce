@@ -14,6 +14,8 @@ const signUp = async (userDatas: Usersignup) => {
 }
 
 const logIn = async (usrname: string, password: string, next: NextFunction): Promise<string> => {
+    console.log(usrname, password);
+    
     if (!usrname || !password) {
         const err = new CustomeError(`Please provide a Username and password`, 404);
         next(err);

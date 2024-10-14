@@ -23,8 +23,7 @@ const signUp = catchAsync(async (req: Request, res: Response) => {
 
 })
 const logIn = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const userName: string = req.body.username;
-    const password: string = req.body.password;
+    const {userName, password} = req.body;
     const userDetails = await Users.findOne({ usrname: userName });
     const logedValue = await userSrvc.logIn(userName, password, next);
     res.status(200).json({

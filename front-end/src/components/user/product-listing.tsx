@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { productService } from '../../services/product-service';
 import { IntProductList } from '../../model/interfaces/product-interface';
 import { Link } from 'react-router-dom';
-
+import { NavBarContext } from './NavBarContext';
 
 function ProductListing() {
     const [products, setProducts] = useState<IntProductList[]>();
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const navBarContext = useContext(NavBarContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,15 +18,30 @@ function ProductListing() {
                 setLoading(false)
             } catch (error) {
                 console.log(error);
-
                 setError('Failed to fetch products');
                 setLoading(false)
-
             }
         }
 
-        fetchData()
-    }, [])
+        const fetchProductCategory = async () => {
+            setLoading(true)
+            try {
+                const products = await productService.fetchProductByCategories(navBarContext.data);
+                setProducts(products.data.datas);
+                setLoading(false)
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+            }
+        }
+
+        if (navBarContext.data.length > 0) {
+            fetchProductCategory()
+        } else {
+            fetchData()
+        }
+
+    }, [navBarContext.data])
     if (loading) {
         return (
             <div>
@@ -44,29 +60,31 @@ function ProductListing() {
 
     return (
 
-        <div className="main grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+        <div className="grid items-center justify-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3  w-full">
             {products?.map((x) => {
                 return (
-                    <Link to={`/view-product/${x._id}`} key={x._id}>
-                        <div className="card-main max-w-[300px] shadow-lg rounded-md overflow-hidden">
-                            <div className="img h-[390px] overflow-hidden">
+                    <div className="card-main h-[500px] max-w-[310px] shadow-lg rounded-md overflow-hidden" key={x._id}>
+                        <div className="img h-[400px] overflow-hidden">
+                            <Link to={`/view-product/${x._id}`}>
                                 <img
                                     src={x.image}
                                     alt={x.title || 'Book'}
                                     className="h-full w-full object-cover hover:scale-105 transition-all"
                                 />
+                            </Link>
+                        </div>
+                        <div className='mt-3 flex items-center justify-between px-2'>
+                            <div>
+                                <h1 className='text-lg font-medium font-serif '>{x.title}</h1>
+                                <p>—{x.author} </p>
                             </div>
-                            <div className='mt-3 flex items-center justify-between px-2'>
-                                <div>
-                                    <h1 className='text-lg font-medium font-serif '>{x.title}</h1>
-                                    <p>—{x.author} </p>
-                                </div>
-                                <div>
-                                    <p>{x.price} </p>
-                                </div>
+                            <div className='text-end'>
+                                <p className='font-mono'>{x.price} </p>
+                                <button className='border border-black py-1 px-1 rounded-md font-bold'>Add to cart</button>
                             </div>
                         </div>
-                    </Link>
+                    </div>
+
                 );
             })}
         </div>
