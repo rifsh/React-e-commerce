@@ -12,21 +12,22 @@ dotenv.config({ path: path.join(__dirname, '../../config.env') });
 const signUp = catchAsync(async (req: Request, res: Response) => {
     const userDatas: Usersignup = req.body;
     const users = await userSrvc.signUp(userDatas);
-    // const token = userToken();
-    res.status(200).json({
-        status: "Success",
-        // token,
-        data: {
-            users
-        }
-    })
+    if (users === 'Account created successfully') {
+        res.status(200).json({
+            status: "Success",
+        })
+    } else {
+        res.status(422).json({
+            status: users,
+        })
+    }
 
 })
 const logIn = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const {userName, password} = req.body;
-    const userDetails = await Users.findOne({ usrname: userName });
+    const { userName, password } = req.body;
+    const userDetails = await Users.findOne({ userName: userName });
     const logedValue = await userSrvc.logIn(userName, password, next);
-    res.status(200).json({
+    return res.status(200).json({
         status: "Valid",
         token: logedValue,
         user: userDetails

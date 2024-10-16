@@ -1,13 +1,12 @@
 import { ImBooks } from "react-icons/im";
 import './navBar.css';
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import { productService } from "../../services/product-service";
 import { CategoriesResponse } from "../../model/interfaces/categories-interface";
 import { NavBarContext } from "./NavBarContext";
 
 const NavBar: React.FC = () => {
-    const location = useLocation();
     const [showCategories, setShowCategories] = useState<boolean>(false);
     const [bookCategories, setCategories] = useState<CategoriesResponse[]>();
     const navBarContext = useContext(NavBarContext);
@@ -86,18 +85,15 @@ const NavBar: React.FC = () => {
                             </a >
                         </div >
 
-                        <div className="">
-                            <a className="text-black flex items-center">
+                        {/* <div className=""> */}
+                        {/* <a className="text-black flex items-center">
                                 <p>Logout</p>
                                 <i className='bx bx-log-out text-3xl'></i>
-                            </a >
-                        </div >
+                            </a > */}
+                        {/* </div > */}
 
                         <div className="">
-                            <a className="text-black flex items-center">
-                                <p>LogIn</p>
-                                <i className='bx bx-log-in text-3xl'></i>
-                            </a >
+                            <Link to={'auth/login'}>Login</Link>
                         </div >
                     </div>
                 </div>

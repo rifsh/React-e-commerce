@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';  // To enable carousel functionality
 import ProductList from './pages/user/productList';
 import ViewProductPpage from './pages/user/view-product-page';
+import 'react-toastify/dist/ReactToastify.css';
+import { Bounce, ToastContainer } from 'react-toastify';
 
 
 function App() {
@@ -26,6 +28,22 @@ function App() {
           <Route path='register' element={<AuthRegister />} />
         </Route>
       </Routes>
+
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
+
     </div>
   )
 }

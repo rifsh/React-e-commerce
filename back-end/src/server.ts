@@ -1,6 +1,6 @@
 import app from '.';
 import http from "http";
-import { connection } from './db_connection'
+import { connection } from './utils/db_connection'
 import { errorHandler } from './middleware/errormiddlaware';
 import { Server } from "socket.io";
 import { WebSocketServer } from "ws";

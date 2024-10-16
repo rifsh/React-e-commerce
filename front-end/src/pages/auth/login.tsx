@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CommonForm from "../../components/commmon/form";
 import { loginFormControlls } from "../../config/form";
 import { useState } from "react";
 import { UserLoginInterface } from "../../model/interfaces/user-interface";
 import { authService } from "../../services/auth-service";
+import { Bounce, toast } from "react-toastify";
 
 const inetialState: UserLoginInterface = {
     userName: '',
@@ -11,12 +12,43 @@ const inetialState: UserLoginInterface = {
 }
 export default function AuthLogin() {
     const [loginFormData, setLoginFormData] = useState<UserLoginInterface>(inetialState);
+    const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const submit = async (e) => {
         e.preventDefault();
-        const response = await authService.userLogin(loginFormData)
-        console.log(response);
-
+        setLoading(true);
+        const response = await authService.userLogin(loginFormData);
+        if (response.data) {
+            localStorage.setItem('userId', response.data.user._id);
+            localStorage.setItem('token', response.data.token);
+            toast.success('Logged successfully', {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+            setLoading(false);
+            navigate('/')
+        } else {
+            toast.warning('Something went wrong', {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+            setLoading(false);
+        }
     }
 
     return (
@@ -33,7 +65,8 @@ export default function AuthLogin() {
                     buttonValue="Sign in"
                     formData={loginFormData}
                     setFormData={setLoginFormData}
-                    onSubmit={submit} />
+                    onSubmit={submit}
+                    loading={loading} />
             </div>
         </div>
     )

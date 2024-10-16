@@ -6,7 +6,7 @@ dotenv.config({path: path.join(__dirname,'../.env')});
 
 export function connection() {
     mongoose.connect(process.env.DATABASE_UR, {
-        dbName:'User'
+        dbName:'books-shopee'
     })
         .then((conn) => {
             console.log('connected successfully');

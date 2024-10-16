@@ -1,5 +1,6 @@
 import React, { SetStateAction } from "react"
 import { FormControllsInterface } from "../../model/interfaces/form-interface"
+import { BeatLoader } from "react-spinners";
 
 interface CommonFormProps<T> {
     formControls?: FormControllsInterface[],
@@ -8,16 +9,10 @@ interface CommonFormProps<T> {
     setFormData?: React.Dispatch<SetStateAction<T>>
     buttonValue?: string
     imageStr?: (message: string) => void;
+    loading?: boolean,
 }
 
-const CommonForm = <T extends Record<string, any>>({
-    formControls,
-    formData,
-    setFormData,
-    onSubmit,
-    buttonValue,
-    imageStr
-}: CommonFormProps<T>) => {
+const CommonForm = <T extends Record<string, any>>({ formControls, formData, setFormData, onSubmit, buttonValue, imageStr, loading }: CommonFormProps<T>) => {
 
     const imageHandler = (e) => {
         const file = e.target.files[0];
@@ -75,7 +70,12 @@ const CommonForm = <T extends Record<string, any>>({
                         </div>
                     )
                 })}
-                <button className="bg-gray-800 text-white w-full py-2 px-3 rounded-md mt-2">{buttonValue || 'Submit'}</button>
+                <button className="bg-gray-800 text-white w-full py-2 px-3 h-[40px] rounded-md mt-2 flex items-center justify-center ">
+                    {!loading && <p>{buttonValue || 'Submit'}</p>}
+                    {loading && <BeatLoader
+                        size={10}
+                        color="white" />}
+                </button>
             </div>}
         </form>
     )

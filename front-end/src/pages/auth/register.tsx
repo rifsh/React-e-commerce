@@ -2,8 +2,9 @@ import { useState } from "react";
 import CommonForm from "../../components/commmon/form";
 import { registrationFormControls } from "../../config/form";
 import { UserRegisrationInterface } from "../../model/interfaces/user-interface";
-import { Link } from "react-router-dom";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { authService } from "../../services/auth-service";
+import { Bounce, toast } from "react-toastify";
 
 const inetialState: UserRegisrationInterface = {
     name: '',
@@ -17,7 +18,9 @@ const inetialState: UserRegisrationInterface = {
 export default function AuthRegister() {
 
     const [regFormData, setRegFormData] = useState<UserRegisrationInterface>(inetialState);
-    const [image, setImage] = useState(null)
+    const [image, setImage] = useState(null);
+    const navigate: NavigateFunction = useNavigate()
+    const [loading, setLoading] = useState<boolean>(false)
 
     const imageGetting = (message) => {
         if (message) {
@@ -35,7 +38,23 @@ export default function AuthRegister() {
 
     const submit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const response = await authService.userRegistration(regFormData);
+        if (response.data.status === 'Success') {
+            toast.success('Account created', {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+            setLoading(false);
+            navigate('../login')
+        }
     }
 
     return (
@@ -55,8 +74,10 @@ export default function AuthRegister() {
                     buttonValue="Sign up"
                     formData={regFormData}
                     setFormData={setRegFormData}
-                    onSubmit={submit} />
+                    onSubmit={submit}
+                    loading={loading} />
             </div>
+
         </div>
     )
 }

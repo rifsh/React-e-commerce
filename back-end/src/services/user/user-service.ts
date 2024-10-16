@@ -8,19 +8,22 @@ import { userInterface } from "../../models/interfaces/user/user_model";
 
 //JWT_token
 
-const signUp = async (userDatas: Usersignup) => {
-    const newUser:userInterface = await Users.create(userDatas);
-    return newUser
+const signUp = async (userDatas: Usersignup): Promise<string> => {
+    try {
+        const newUser: userInterface = await Users.create(userDatas);
+        return 'Account created successfully'
+    } catch (error) {
+        console.log(error);
+        return 'Somthing went wrong'
+    }
 }
 
 const logIn = async (usrname: string, password: string, next: NextFunction): Promise<string> => {
-    console.log(usrname, password);
-    
     if (!usrname || !password) {
         const err = new CustomeError(`Please provide a Username and password`, 404);
         next(err);
     }
-    const logedUser = await Users.findOne({ usrname }).select('+password');
+    const logedUser = await Users.findOne({ userName: usrname }).select('+password');
 
 
     if (!logedUser || !await logedUser.comparePassword(password, logedUser.password)) {

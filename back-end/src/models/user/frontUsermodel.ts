@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema<userInterface>({
         type: String,
         required: [true, 'name is required']
     },
-    usrname: {
+    userName: {
         type: String,
         required: [true, 'Username is required'],
         unique: true,

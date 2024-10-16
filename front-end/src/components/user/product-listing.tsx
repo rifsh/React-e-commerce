@@ -14,6 +14,7 @@ function ProductListing() {
         const fetchData = async () => {
             try {
                 const data = await productService.fetchAllProducts();
+                console.log(data);
                 setProducts(data.data.datas);
                 setLoading(false)
             } catch (error) {
@@ -28,6 +29,7 @@ function ProductListing() {
             try {
                 const products = await productService.fetchProductByCategories(navBarContext.data);
                 setProducts(products.data.datas);
+                
                 setLoading(false)
             } catch (error) {
                 console.log(error);
