@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema<Product>({
     },
     image:{
         type: String,
-        required: [true, required('Image')]
+        required: [true, required('Image')],
     },
     author:{
         type: String,
@@ -32,5 +32,4 @@ const productSchema = new mongoose.Schema<Product>({
         required: [true, required('Category')]
     }
 })
-
 export const producModel = mongoose.model('productdetail', productSchema);

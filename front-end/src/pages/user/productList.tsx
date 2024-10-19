@@ -5,7 +5,7 @@ function ProductList() {
         <div className="px-4 py-4">
             <h1 className="text-3xl font-bold">All Books</h1>
             <div className=" py-2 flex items-center justify-center">
-                <ProductListing />
+                <ProductListing value="all"/>
             </div>
         </div>
     )

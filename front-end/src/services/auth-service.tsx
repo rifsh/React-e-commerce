@@ -15,7 +15,7 @@ const userRegistration = async (regData: UserRegisrationInterface): Promise<Axio
         formData.append('confirmPassword', regData.confirmPassword);
         const response: AxiosResponse<{ status: string }> = await axios.post(`${baseUrl}/signup`, formData, {
             headers: {
-                'Content-Type': 'multipart/form-data', // Important for file uploads
+                'Content-Type': 'multipart/form-data',
             },
         });
         return response;
