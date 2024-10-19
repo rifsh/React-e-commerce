@@ -5,6 +5,7 @@ export interface InterfaceViewProductProps {
 }
 
 export interface InterfaceProductListProps {
+    id?: string,
     value: string,
     cateogry?: string
 }

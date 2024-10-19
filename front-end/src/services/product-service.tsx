@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { IntProductList } from '../model/interfaces/product-interface';
 import { CategoriesResponse } from '../model/interfaces/categories-interface';
 

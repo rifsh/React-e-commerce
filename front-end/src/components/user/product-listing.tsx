@@ -6,7 +6,7 @@ import { NavBarContext } from './NavBarContext';
 import ProductListingSkeleton from '../skeletons/product-listing';
 import { InterfaceProductListProps } from '../../model/interfaces/props-interface';
 
-function ProductListing({ value, cateogry }: InterfaceProductListProps): ReactElement {
+function ProductListing({ value, cateogry, id }: InterfaceProductListProps): ReactElement {
     const [products, setProducts] = useState<IntProductList[]>();
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -25,13 +25,27 @@ function ProductListing({ value, cateogry }: InterfaceProductListProps): ReactEl
                 setLoading(false)
             }
         }
+
+        const fetchrelatedProducts = async (category: string) => {
+            setLoading(true);
+
+            try {
+                const products = await productService.fetchProductByCategories(category ? category : navBarContext.data);
+                if (products.data.datas.length === 0) { setError('No Book found') };
+                setProducts(products.data.datas.filter((x) => { return x._id !== id }));
+                setLoading(false);
+            } catch (error) {
+                setError('No Book found');
+                setLoading(false);
+            }
+        }
         const fetchProductCategory = async (category?: string) => {
             setLoading(true);
 
             try {
                 const products = await productService.fetchProductByCategories(category ? category : navBarContext.data);
                 if (products.data.datas.length === 0) { setError('No Book found') };
-                
+
                 setProducts(products.data.datas);
                 setLoading(false);
             } catch (error) {
@@ -60,7 +74,7 @@ function ProductListing({ value, cateogry }: InterfaceProductListProps): ReactEl
         }
 
         if (value === 'related') {
-            fetchProductCategory(cateogry)
+            fetchrelatedProducts(cateogry)
         } else {
             if (navBarContext.data.length > 0 && navBarContext.data !== 'all books') {
                 fetchProductCategory()
@@ -72,7 +86,7 @@ function ProductListing({ value, cateogry }: InterfaceProductListProps): ReactEl
             }
         }
 
-    }, [navBarContext.data, navBarContext.searchValue]);
+    }, [navBarContext.data, navBarContext.searchValue, id]);
 
     if (loading) {
         return (
@@ -116,12 +130,12 @@ function ProductListing({ value, cateogry }: InterfaceProductListProps): ReactEl
                             </div>
                             <div className='mt-3 flex items-center justify-between px-2'>
                                 <div>
-                                    <h1 className='text-lg font-medium font-serif '>{x.title}</h1>
+                                    <h1 className='text-lg font-semibold font-sans '>{x.title}</h1>
                                     <p>—{x.author} </p>
                                 </div>
                                 <div className='text-end'>
-                                    <p className='font-mono'>{x.price} </p>
-                                    <button className='border border-black py-1 px-1 rounded-md font-bold hover:bg-gray-800 hover:text-white transition-all'>Add to cart</button>
+                                    <p className='font-bold text-gray-800'>₹{x.price}</p>
+                                    <button className='border border-black py-1 px-1 rounded-md font-bold hover:bg-gray-800 hover:text-white transition-all focus:ring-2 focus:ring-gray-500'>Add to cart</button>
                                 </div>
                             </div>
                         </div>

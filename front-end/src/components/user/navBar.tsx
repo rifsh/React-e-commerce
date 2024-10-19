@@ -6,9 +6,16 @@ import { productService } from "../../services/product-service";
 import { FetchCategoriesResponse } from "../../model/interfaces/categories-interface";
 import { NavBarContext } from "./NavBarContext";
 import { Skeleton } from "@mui/material";
+import { FaRegUserCircle } from "react-icons/fa";
+import { userService } from "../../services/user-service";
 
 const NavBar: React.FC = () => {
-    const item = [1, 2, 3, 4];
+    const item: number[] = [1, 2, 3, 4];
+    const userId: string = localStorage.getItem('userId');
+    const [userImage, setImage] = useState<{ image: string, loading: boolean }>({
+        image: '',
+        loading: true
+    });
     const [showCategories, setShowCategories] = useState<boolean>(false);
     const [bookCategories, setCategories] = useState<FetchCategoriesResponse>();
     const navBarContext = useContext(NavBarContext);
@@ -36,6 +43,18 @@ const NavBar: React.FC = () => {
             }
         }
 
+        const fetchUser = async () => {
+            setImage({ ...userImage, loading: true });
+            try {
+                const user = await userService.fetchUserById(userId);
+                setImage({ ...userImage, image: user.data.data.image, loading: false });
+            } catch (error) {
+                console.log(error);
+
+            }
+        }
+
+        fetchUser()
         fetchCategories()
     }, [])
 
@@ -62,7 +81,7 @@ const NavBar: React.FC = () => {
                             placeholder="Search Book by author and title" />}
                     </div>
 
-                    <div className="flex w-full items-center justify-between max-w-[400px]">
+                    <div className="flex items-center justify-between min-w-[500px] text-lg">
                         <div>
                             <Link to={'/all-products'} onClick={() => { handleCategories('all books') }}>All Books</Link>
                         </div>
@@ -106,6 +125,13 @@ const NavBar: React.FC = () => {
 
                         <div className="">
                             <Link to={'auth/login'}>Login</Link>
+                        </div >
+                        <div className="h-12 w-12 rounded-full overflow-hidden object-cover">
+                            <Link to={''}>
+                                {!userImage && <FaRegUserCircle className="text-5xl" />}
+                                {userImage.loading && <Skeleton variant="rounded" animation='wave' width={100} height={100} />}
+                                {userImage && <img src={userImage.image} className="rounded-full" alt="" />}
+                            </Link>
                         </div >
                     </div>
                 </div>

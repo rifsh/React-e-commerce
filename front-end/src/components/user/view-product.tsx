@@ -55,8 +55,8 @@ const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
                         </p>
 
                         {/* Price */}
-                        <p className="text-2xl lg:text-3xl text-gray-700 font-bold">
-                            {product.price}$
+                        <p className="text-2xl font-sans lg:text-3xl text-gray-700 font-bold">
+                            {product.price} ₹
                         </p>
 
                         {/* Add to Cart Button */}
@@ -74,7 +74,7 @@ const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
             )}
             <div className='mt-14'>
                 <h1 className='text-6xl font-sans my-3'>Related products</h1>
-                {product && <ProductListing value='related' cateogry={product?.category} />}
+                {product && <ProductListing value='related' cateogry={product.category} id={product._id} />}
             </div>
         </div>
 
