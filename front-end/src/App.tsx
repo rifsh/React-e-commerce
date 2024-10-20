@@ -11,6 +11,7 @@ import ProductList from './pages/user/productList';
 import ViewProductPpage from './pages/user/view-product-page';
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce, ToastContainer } from 'react-toastify';
+import CartPage from './pages/user/cart-page';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path='/' element={<Landing />} />
           <Route path='/all-products' element={<ProductList />} />
           <Route path='/view-product/:id' element={<ViewProductPpage />} />
+          <Route path='cart' element={<CartPage />} />
         </Route>
 
         <Route path='/auth' element={<AuthLayout />}>

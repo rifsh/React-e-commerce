@@ -1,14 +1,11 @@
-import axios, { AxiosResponse } from "axios"
+import { AxiosResponse } from "axios"
 import { UserRegisrationInterface } from "../model/interfaces/user-interface";
+import userApi from "../utils/axios";
 
 const baseUrl: string = 'http://localhost:3000/api/users';
-const userId: string = localStorage.getItem('userId');
-const token: string = localStorage.getItem('token');
 
 const fetchUserById = async (id:string): Promise<AxiosResponse<{ data: UserRegisrationInterface }>> => {
-    const resposne: Promise<AxiosResponse<{ data: UserRegisrationInterface }>> = axios.get(`${baseUrl}/user/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-    });
+    const resposne: Promise<AxiosResponse<{ data: UserRegisrationInterface }>> = userApi.get(`${baseUrl}/user/${id}`);
     return resposne;
 }
 

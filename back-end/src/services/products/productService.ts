@@ -23,6 +23,15 @@ const products = async (): Promise<Product[]> => {
     products = await producModel.find({});
     return products
 }
+const pagination = async (limit: number, startIndex: number) => {
+    try {
+        const productCount = await producModel.countDocuments();
+        const products = await producModel.find().limit(limit).skip(startIndex);
+        return { productCount, products }
+    } catch (error) {
+
+    }
+}
 const productByCategory = async (category: string, next: NextFunction) => {
     const categorizedProduts = await producModel.aggregate([{
         $match: { category: category }
@@ -255,6 +264,7 @@ const searchingProduct = async (searchText): Promise<Product[]> => {
 export const productService = {
     addproduts,
     products,
+    pagination,
     productByCategory,
     productById,
     updateProducts,

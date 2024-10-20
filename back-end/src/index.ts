@@ -1,9 +1,10 @@
 import exp, { Express, NextFunction, Request, Response } from 'express';
 import cors from "cors";
 import bodyparser from "body-parser";
-import { userRouter } from './routers/userRouter';
-import { adminRouter } from './routers/adminRouter';
+import { userRouter } from './routers/user.routes';
+import { adminRouter } from './routers/admin.routes';
 import { CustomeError } from './utils/customerror';
+import { productRoutes } from './routers/product.routes';
 
 
 
@@ -15,6 +16,7 @@ app.use(cors())
 
 
 app.use('/api/users', userRouter);
+app.use('/api/products', productRoutes);
 app.use('/api/admin', adminRouter);
 
 

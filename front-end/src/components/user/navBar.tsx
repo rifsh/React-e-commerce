@@ -1,6 +1,6 @@
 import { ImBooks } from "react-icons/im";
 import './navBar.css';
-import { Link, useLocation } from "react-router-dom";
+import { Link, Location, useLocation } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import { productService } from "../../services/product-service";
 import { FetchCategoriesResponse } from "../../model/interfaces/categories-interface";
@@ -8,6 +8,7 @@ import { NavBarContext } from "./NavBarContext";
 import { Skeleton } from "@mui/material";
 import { FaRegUserCircle } from "react-icons/fa";
 import { userService } from "../../services/user-service";
+import { IoIosArrowDown } from "react-icons/io";
 
 const NavBar: React.FC = () => {
     const item: number[] = [1, 2, 3, 4];
@@ -18,10 +19,12 @@ const NavBar: React.FC = () => {
     });
     const [showCategories, setShowCategories] = useState<boolean>(false);
     const [bookCategories, setCategories] = useState<FetchCategoriesResponse>();
+    const [Logout, setLogOut] = useState<boolean>();
     const navBarContext = useContext(NavBarContext);
     const { setData } = navBarContext;
     const { setSearchValue } = navBarContext
-    const url = useLocation()
+    const url: Location<string> = useLocation();
+
     const categories = () => {
         setShowCategories(true);
     }
@@ -31,6 +34,11 @@ const NavBar: React.FC = () => {
     }
 
     useEffect(() => {
+
+        if (userId) {
+            setLogOut(false);
+        }
+
         const fetchCategories = async () => {
             setCategories({ ...bookCategories, loading: true });
             try {
@@ -53,10 +61,9 @@ const NavBar: React.FC = () => {
 
             }
         }
-
         fetchUser()
         fetchCategories()
-    }, [])
+    }, [Logout])
 
     const handleCategories = (name: string) => {
         setData(name);
@@ -64,6 +71,11 @@ const NavBar: React.FC = () => {
 
     const searchHandler = (e) => {
         setSearchValue(e.target.value)
+    }
+
+    const logOutHandler = () => {
+        localStorage.clear();
+        setLogOut(true);
     }
 
     return (
@@ -81,17 +93,17 @@ const NavBar: React.FC = () => {
                             placeholder="Search Book by author and title" />}
                     </div>
 
-                    <div className="flex items-center justify-between min-w-[500px] text-lg">
+                    <div className="flex items-center justify-between min-w-[500px] text-lg" style={{ fontFamily: 'Roboto', fontWeight: 'lighter' }}>
                         <div>
                             <Link to={'/all-products'} onClick={() => { handleCategories('all books') }}>All Books</Link>
                         </div>
-                        {url.pathname === '/all-products' && <div className="flex flex-col items-center justify-center relative" onMouseOver={categories} onMouseLeave={hideCategories}>
-                            <p className="text-black font-semibold cursor-pointer">Categories</p>
+                        {url.pathname === '/all-products' && <div className="flex flex-row items-center justify-center relative" onMouseOver={categories} onMouseLeave={hideCategories}>
+                            <p className="text-black cursor-pointer">Categories</p>
                             {showCategories && <div className="category-div flex flex-col  justify-center w-[130px] bg-gray-100 absolute top-[21px] left-0 py-1 rounded-md">
                                 {!bookCategories.loading && !bookCategories.error && bookCategories.data.map((x) => {
                                     return (
                                         <div className="flex flex-col hover:scale-105 transition-all justify-center" key={x._id}>
-                                            <p role="button" onClick={() => { handleCategories(x.name) }} className="py-1 ps-2 font-extralight">{x.name}</p>
+                                            <p role="button" onClick={() => { handleCategories(x.name) }} className="py-1 ps-2 font-normal">{x.name}</p>
                                         </div>
                                     )
                                 })}
@@ -105,9 +117,9 @@ const NavBar: React.FC = () => {
                         </div >}
 
                         <div className="">
-                            <a className="text-black flex items-center" >
+                            <Link to={'cart'} className="text-black flex items-center" >
                                 <p>Cart</p>
-                            </a >
+                            </Link >
                         </div >
 
                         <div className="">
@@ -116,16 +128,17 @@ const NavBar: React.FC = () => {
                             </a >
                         </div >
 
-                        {/* <div className=""> */}
-                        {/* <a className="text-black flex items-center">
-                                <p>Logout</p>
-                                <i className='bx bx-log-out text-3xl'></i>
-                            </a > */}
-                        {/* </div > */}
 
-                        <div className="">
+                        {Logout && <div className="">
                             <Link to={'auth/login'}>Login</Link>
-                        </div >
+                        </div >}
+
+                        {!Logout && <div className="logout w-20 h-9 rounded-lg hover:bg-[#ededed80] transition-all">
+                            <a role="button" onClick={logOutHandler} className="text-black h-full w-full flex items-center justify-center">
+                                <p>Logout</p>
+                            </a >
+                        </div >}
+
                         <div className="h-12 w-12 rounded-full overflow-hidden object-cover">
                             <Link to={''}>
                                 {!userImage && <FaRegUserCircle className="text-5xl" />}

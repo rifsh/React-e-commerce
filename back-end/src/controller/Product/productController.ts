@@ -24,7 +24,21 @@ const viewProduct = catchAsync(async (req: Request, res: Response) => {
         status: "OK",
         total_Products: products.length,
         datas: products
-    })    
+    })
+})
+const viewProdcutByPages = catchAsync(async (req: Request, res: Response) => {
+    const page: number = Number(req.query.page) || 1;
+    const limit: number = Number(req.query.limit) || 10;
+    const startIndex: number = (page - 1) * limit;
+
+    const product = await productService.pagination(limit, startIndex);
+    res.status(200).json({
+        totalProducts: product.productCount,
+        page,
+        limit,
+        totalPages: Math.ceil(product.productCount / limit),
+        products: product.products
+    })
 })
 const categorizedProducts = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const category: string = req.params.id
@@ -191,7 +205,7 @@ const cancel = catchAsync(async (req: Request, res: Response, next) => {
 const deleteall = catchAsync(async (req: Request, res: Response, next) => {
     await orderModel.deleteMany();
 })
-const search = catchAsync(async (req: Request, res: Response) => { 
+const search = catchAsync(async (req: Request, res: Response) => {
     const query = req.query.search;
     const datas: Product[] = await productService.searchingProduct(query);
     res.status(200).json({
@@ -203,6 +217,7 @@ const search = catchAsync(async (req: Request, res: Response) => {
 export const productController = {
     addProduct,
     viewProduct,
+    viewProdcutByPages,
     categorizedProducts,
     productById,
     updateProduct,
