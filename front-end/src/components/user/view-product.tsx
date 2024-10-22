@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { InterfaceViewProductProps } from '../../model/interfaces/props-interface'
 import { productService } from '../../services/product-service'
 import { IntProductList } from '../../model/interfaces/product-interface'
 import { FaCartShopping } from 'react-icons/fa6'
 import ProductListing from './product-listing'
 import ProductViewingSkeleton from '../skeletons/product-viewing'
+import { NavBarContext } from './NavBarContext'
+import { InterfaceCartUseState } from '../../model/interfaces/cart-interface'
 
 const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
     const [product, setProduct] = useState<IntProductList>();
+    const { userId } = useContext(NavBarContext);
+    const [cart, setCart] = useState<InterfaceCartUseState>({
+        loading: false,
+        value: null
+    })
 
     useEffect(() => {
         const fetchProductById = async () => {
@@ -23,6 +30,12 @@ const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
         fetchProductById()
     }, [productId])
 
+    const handleCart = async (productId: string) => {
+        setCart({ ...cart, loading: true });
+        await productService.addToCart(productId, userId);
+        setCart({ ...cart, loading: false });
+    }
+
     return (
         <div className="w-full min-h-screen bg-gray-100 p-5 flex flex-col">
             {!product && <ProductViewingSkeleton />}
@@ -34,6 +47,8 @@ const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
                             className="h-full w-full object-cover"
                             src={product.image}
                             alt={product.title}
+                            loading='lazy'
+
                         />
                     </div>
 
@@ -62,11 +77,13 @@ const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
                         {/* Add to Cart Button */}
                         <div>
                             <button
+                                onClick={() => handleCart(product._id)}
                                 style={{ wordSpacing: "0.2rem", letterSpacing: "0.1rem" }}
                                 className="bg-orange-600 py-3 px-6 rounded-full text-white flex items-center justify-center transition-all hover:bg-orange-500 focus:ring-4 focus:ring-orange-300"
                             >
                                 <FaCartShopping className="text-xl mr-2" />
-                                <span className="font-sans font-medium">Add to cart</span>
+                                {!cart.loading && <span className="font-sans font-medium">Add to cart</span>}
+                                {cart.loading && <span className="font-sans font-medium">Adding ...</span>}
                             </button>
                         </div>
                     </div>

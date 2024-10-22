@@ -138,8 +138,8 @@ const qundityIncre = catchAsync(async (req: Request, res: Response, next: NextFu
 
 })
 const addToCart = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const productId: ObjectId = req.body.productId;
-    const userId: string = req.params.id;
+    const productId: ObjectId = req.params.id as unknown as ObjectId;
+    const userId: string = req.body.userId;
     productService.addToCart(productId, userId, res, next)
 })
 const viewCart = catchAsync(async (req: Request, res: Response, next: NextFunction) => {

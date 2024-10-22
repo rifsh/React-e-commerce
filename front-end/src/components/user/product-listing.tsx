@@ -10,6 +10,7 @@ import { Pagination } from '@mui/material';
 function ProductListing({ value, cateogry, id }: InterfaceProductListProps): ReactElement {
     const [products, setProducts] = useState<IntProductList[]>();
     const [loading, setLoading] = useState<boolean>(true);
+    const [cartLoading, setCartLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [searchNotFound, setSearchNotFound] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
@@ -95,6 +96,12 @@ function ProductListing({ value, cateogry, id }: InterfaceProductListProps): Rea
         setPage(value);
     }
 
+    const handleCart = async (productId: string) => {
+        setCartLoading(true);
+        await productService.addToCart(productId, navBarContext.userId);
+        setCartLoading(false);
+    }
+
     if (loading) {
         return (
             <div className='flex flex-col w-full'>
@@ -142,7 +149,11 @@ function ProductListing({ value, cateogry, id }: InterfaceProductListProps): Rea
                                 </div>
                                 <div className='text-end'>
                                     <p className='font-bold text-gray-800'>₹{x.price}</p>
-                                    <button className='border border-black py-1 px-1 rounded-md font-bold hover:bg-gray-800 hover:text-white transition-all focus:ring-2 focus:ring-gray-500'>Add to cart</button>
+                                    <button
+                                        onClick={() => { handleCart(x._id) }}
+                                        className='border border-black py-1 px-1 rounded-md font-bold hover:bg-gray-800 hover:text-white transition-all focus:ring-2 focus:ring-gray-500'>
+                                        <span>Add to cart</span>
+                                    </button>
                                 </div>
                             </div>
 

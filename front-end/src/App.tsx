@@ -1,36 +1,39 @@
 import { Route, Routes } from 'react-router-dom';
-import './App.css'
-import AuthLayout from './components/auth/layout';
-import AuthLogin from './pages/auth/login';
-import AuthRegister from './pages/auth/register';
-import Layout from './components/user/layout';
-import Landing from './pages/user/landing';
+import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';  // To enable carousel functionality
-import ProductList from './pages/user/productList';
-import ViewProductPpage from './pages/user/view-product-page';
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce, ToastContainer } from 'react-toastify';
-import CartPage from './pages/user/cart-page';
+import React, { Suspense } from 'react';
 
+// Lazy load components
+const AuthLayout = React.lazy(() => import('./components/auth/layout'));
+const AuthLogin = React.lazy(() => import('./pages/auth/login'));
+const AuthRegister = React.lazy(() => import('./pages/auth/register'));
+const Layout = React.lazy(() => import('./components/user/layout'));
+const Landing = React.lazy(() => import('./pages/user/landing'));
+const ProductList = React.lazy(() => import('./pages/user/productList'));
+const ViewProductPage = React.lazy(() => import('./pages/user/view-product-page'));  // Fixed naming
+const CartPage = React.lazy(() => import('./pages/user/cart-page'));
 
 function App() {
   return (
     <div className='flex flex-col overflow-hidden bg-white'>
-      <Routes>
-        <Route path='/' element={<Layout />}>
-          <Route path='/' element={<Landing />} />
-          <Route path='/all-products' element={<ProductList />} />
-          <Route path='/view-product/:id' element={<ViewProductPpage />} />
-          <Route path='cart' element={<CartPage />} />
-        </Route>
+      <Suspense fallback={<div className='w-full flex items-center justify-center h-screen font-bold text-gray-400'>Loading...</div>}>
+        <Routes>
+          <Route path='/' element={<Layout />}>
+            <Route path='/' element={<Landing />} />
+            <Route path='/all-products' element={<ProductList />} />
+            <Route path='/view-product/:id' element={<ViewProductPage />} />  {/* Fixed naming */}
+            <Route path='/cart' element={<CartPage />} />
+          </Route>
 
-        <Route path='/auth' element={<AuthLayout />}>
-          <Route path='login' element={<AuthLogin />} />
-          <Route path='register' element={<AuthRegister />} />
-        </Route>
-      </Routes>
-
+          <Route path='/auth' element={<AuthLayout />}>
+            <Route path='login' element={<AuthLogin />} />
+            <Route path='register' element={<AuthRegister />} />
+          </Route>
+        </Routes>
+      </Suspense>
 
       <ToastContainer
         position="top-right"
@@ -45,9 +48,8 @@ function App() {
         theme="light"
         transition={Bounce}
       />
-
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
