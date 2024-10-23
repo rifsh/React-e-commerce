@@ -53,7 +53,7 @@ const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
                     </div>
 
                     {/* Product Info */}
-                    <div className="font-['Roboto'] flex-1 w-full px-5 lg:px-10 py-10 lg:py-0 flex flex-col justify-between space-y-6 lg:space-y-8">
+                    <div className="font-['Roboto'] flex-1 w-full md:px-5 lg:px-10 py-10 lg:py-0 flex flex-col justify-between space-y-6 lg:space-y-8">
                         {/* Title and Category */}
                         <div className="space-y-2">
                             <h1 className="text-3xl lg:text-5xl text-gray-800 font-semibold">
@@ -89,7 +89,7 @@ const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
                     </div>
                 </div>
             )}
-            <div className='mt-14'>
+            <div className='md:mt-14'>
                 <h1 className='text-6xl font-sans my-3'>Related products</h1>
                 {product && <ProductListing value='related' cateogry={product.category} id={product._id} />}
             </div>

@@ -10,12 +10,19 @@ const fetchUserById = async (id: string): Promise<AxiosResponse<{ data: UserRegi
     return resposne;
 }
 
-const fetchCartProducts = async (userId: string):Promise<AxiosResponse<{datas: InterfaceCartResponse}>> => {
+const fetchCartProducts = async (userId: string): Promise<AxiosResponse<{ datas: InterfaceCartResponse }>> => {
     const respons = await userApi.get(`${baseUrl}/${userId}/cart`);
     return respons;
 }
 
+const deleteProductFromCart = async (Id: string, userId: string): Promise<AxiosResponse<{ message: string }>> => {
+    const productId = { productId: Id }
+    const resposne = await userApi.post(`${baseUrl}/${userId}/deletecart`, productId);
+    return resposne;
+}
+
 export const userService = {
     fetchUserById,
-    fetchCartProducts
+    fetchCartProducts,
+    deleteProductFromCart
 }

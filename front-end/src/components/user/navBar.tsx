@@ -74,7 +74,6 @@ const NavBar: React.FC = () => {
 
     const logOutHandler = () => {
         localStorage.clear();
-        setLogOut(true);
     }
 
     return (
@@ -126,11 +125,11 @@ const NavBar: React.FC = () => {
                         </div >
 
 
-                        {Logout && <div className="">
+                        {!userId && <div className="">
                             <Link to={'auth/login'}>Login</Link>
                         </div >}
 
-                        {!Logout && <div className="logout w-20 h-9 rounded-lg hover:bg-[#ededed80] transition-all">
+                        {userId && <div className="logout w-20 h-9 rounded-lg hover:bg-[#ededed80] transition-all">
                             <a role="button" onClick={logOutHandler} className="text-black h-full w-full flex items-center justify-center">
                                 <p>Logout</p>
                             </a >
