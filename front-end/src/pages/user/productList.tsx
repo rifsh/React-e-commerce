@@ -1,4 +1,4 @@
-import ProductListing from "../../components/user/product-listing"
+import ProductListing from "../../components/user/productListing"
 
 function ProductList() {
     return (

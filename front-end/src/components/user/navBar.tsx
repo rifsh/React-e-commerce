@@ -5,10 +5,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { productService } from "../../services/product-service";
 import { FetchCategoriesResponse } from "../../model/interfaces/categories-interface";
 import { NavBarContext } from "./NavBarContext";
-import { Box, DialogContent, Drawer, Skeleton } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { FaRegUserCircle } from "react-icons/fa";
 import { userService } from "../../services/user-service";
-import CartPage from "../../pages/user/cart-page";
 
 const NavBar: React.FC = () => {
     const item: number[] = [1, 2, 3, 4];
@@ -17,7 +16,6 @@ const NavBar: React.FC = () => {
         image: '',
         loading: true
     });
-    const [open, setOpen] = React.useState(false);
     const [showCategories, setShowCategories] = useState<boolean>(false);
     const [bookCategories, setCategories] = useState<FetchCategoriesResponse>();
     const [Logout, setLogOut] = useState<boolean>();
@@ -118,20 +116,7 @@ const NavBar: React.FC = () => {
                         </div >}
 
                         <div className="">
-                            <a className="text-black flex items-center" >
-                                <Box sx={{ display: 'flex' }}>
-                                    <p onClick={() => setOpen(true)}>
-                                        Cart
-                                    </p>
-                                    <Drawer
-                                        sx={{ color: 'bl' }}
-                                        anchor="right"
-                                        open={open}
-                                        onClose={() => setOpen(false)}>
-                                        <DialogContent>{<CartPage />}</DialogContent>
-                                    </Drawer>
-                                </Box>
-                            </a >
+                            <Link to={'cart'}>Cart</Link>
                         </div >
 
                         <div className="">

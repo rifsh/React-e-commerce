@@ -14,7 +14,7 @@ const Layout = React.lazy(() => import('./components/user/layout'));
 const Landing = React.lazy(() => import('./pages/user/landing'));
 const ProductList = React.lazy(() => import('./pages/user/productList'));
 const ViewProductPage = React.lazy(() => import('./pages/user/view-product-page'));  // Fixed naming
-const CartPage = React.lazy(() => import('./pages/user/cart-page'));
+const CartPage = React.lazy(() => import('./pages/user/cartPage'));
 
 function App() {
   return (

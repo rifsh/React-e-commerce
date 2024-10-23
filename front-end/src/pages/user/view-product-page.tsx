@@ -1,5 +1,5 @@
 import { Params, useParams } from "react-router-dom";
-import ViewProduct from "../../components/user/view-product";
+import ViewProduct from "../../components/user/viewProduct";
 
 function ViewProductPpage() {
     const productId: Params<string> = useParams();    

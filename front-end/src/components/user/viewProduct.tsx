@@ -3,7 +3,7 @@ import { InterfaceViewProductProps } from '../../model/interfaces/props-interfac
 import { productService } from '../../services/product-service'
 import { IntProductList } from '../../model/interfaces/product-interface'
 import { FaCartShopping } from 'react-icons/fa6'
-import ProductListing from './product-listing'
+import ProductListing from './productListing'
 import ProductViewingSkeleton from '../skeletons/product-viewing'
 import { NavBarContext } from './NavBarContext'
 import { InterfaceCartUseState } from '../../model/interfaces/cart-interface'
