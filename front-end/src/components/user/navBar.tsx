@@ -17,8 +17,8 @@ const NavBar: React.FC = () => {
         loading: true
     });
     const [showCategories, setShowCategories] = useState<boolean>(false);
+    const [isLogged, setIsLogged] = useState<boolean>();
     const [bookCategories, setCategories] = useState<FetchCategoriesResponse>();
-    const [Logout, setLogOut] = useState<boolean>();
     const navBarContext = useContext(NavBarContext);
     const { setData } = navBarContext;
     const { setSearchValue } = navBarContext
@@ -35,9 +35,10 @@ const NavBar: React.FC = () => {
     useEffect(() => {
 
         if (userId) {
-            setLogOut(false);
+            setIsLogged(true);
+        } else {
+            setIsLogged(false);
         }
-
         const fetchCategories = async () => {
             setCategories({ ...bookCategories, loading: true });
             try {
@@ -57,12 +58,11 @@ const NavBar: React.FC = () => {
                 setImage({ ...userImage, image: user.data.data.image, loading: false });
             } catch (error) {
                 console.log(error);
-
             }
         }
         fetchUser()
         fetchCategories()
-    }, [Logout])
+    }, [userId, isLogged])
 
     const handleCategories = (name: string) => {
         setData(name);
@@ -74,6 +74,7 @@ const NavBar: React.FC = () => {
 
     const logOutHandler = () => {
         localStorage.clear();
+        setIsLogged(false);
     }
 
     return (
@@ -125,11 +126,11 @@ const NavBar: React.FC = () => {
                         </div >
 
 
-                        {!userId && <div className="">
+                        {!isLogged && <div className="">
                             <Link to={'auth/login'}>Login</Link>
                         </div >}
 
-                        {userId && <div className="logout w-20 h-9 rounded-lg hover:bg-[#ededed80] transition-all">
+                        {isLogged && <div className="logout w-20 h-9 rounded-lg hover:bg-[#ededed80] transition-all">
                             <a role="button" onClick={logOutHandler} className="text-black h-full w-full flex items-center justify-center">
                                 <p>Logout</p>
                             </a >

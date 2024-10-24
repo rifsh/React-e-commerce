@@ -97,7 +97,7 @@ const addToCart = async (productId: ObjectId, userId: string, res: Response, nex
     const userFinding = await Users.findById(userId);
     const product = await producModel.findById(productId);
     const existingUser = await CartModel.findOne({ userId: userId });
-    const existingProduct = await CartModel.findOne({ userId: userId, products: productId });
+    const existingProduct = await CartModel.findOne({ userId: userId, 'cartProducts.productId': productId });
 
     if (existingProduct) {
         res.status(200).json({
@@ -109,23 +109,31 @@ const addToCart = async (productId: ObjectId, userId: string, res: Response, nex
         next(new CustomeError("Product or User not found in the db", 404));
     } else {
         if (existingUser && !existingProduct) {
-            existingUser.products.push(productId);
-            existingUser.totalPrice += product.price;
-            await existingUser.save();
+            const addingToCart = await CartModel.findOneAndUpdate(
+                { userId: userId },
+                {
+                    $push: {
+                        cartProducts: { productId: productId }
+                    },
+                    $inc: { totalPrice: product.price }
+                }, { new: true }
+            );
             res.status(200).json({
                 status: "Success",
-                message: "product is added to cart",
-                cart: existingUser,
-                totalProducts: existingUser.products.length
+                message: "Your product is added to cart",
             })
         } else if (!existingUser) {
             //New user
-            const addingCart = await CartModel.create({ userId: userId, products: [productId], totalPrice: product.price });
+            const addingCart = await CartModel.create({
+                userId: userId,
+                cartProducts: [{ productId }],
+                totalPrice: product.price
+            });
             res.status(200).json({
                 status: "Success",
                 message: "Your product is added to cart",
                 cart: addingCart,
-                totalProducts: addingCart.products.length
+                totalProducts: addingCart.cartProducts.map((x) => { x }).length
             })
         }
 
@@ -133,16 +141,20 @@ const addToCart = async (productId: ObjectId, userId: string, res: Response, nex
 
 }
 const viewCart = async (userId: string) => {
-    const viewCart = await CartModel.findOne({ userId: userId }).populate('products');
+    const viewCart = await CartModel.findOne({ userId: userId }).populate({
+        path: 'cartProducts.productId',
+        model: 'productdetail',
+        select: 'title price image'
+    });;
     return viewCart
 }
-const deleteCart = async (id: string, prdctId: ObjectId, next: NextFunction): Promise<userCartInterface> => {
+const deleteCart = async (id: string, prdctId: any, next: NextFunction): Promise<userCartInterface> => {
     const product: Product = await producModel.findById(prdctId);
     const productFinding = await CartModel.findOne({ userId: id, products: prdctId });
     const checkUser = await CartModel.findOne({ userId: id });
     if (checkUser && productFinding) {
-        const index = await checkUser.products.indexOf(prdctId);
-        await checkUser.products.splice(index, 1);
+        const index = await checkUser.cartProducts.indexOf(prdctId);
+        await checkUser.cartProducts.splice(index, 1);
         checkUser.totalPrice -= product.price;
         await checkUser.save();
 

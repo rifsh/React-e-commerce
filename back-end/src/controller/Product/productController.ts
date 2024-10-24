@@ -146,13 +146,11 @@ const viewCart = catchAsync(async (req: Request, res: Response, next: NextFuncti
     let totalPrice: number = 0;
     const userId: string = req.params.id;
     const carts = await productService.viewCart(userId);
-    // carts.map((x) => { return totalPrice += x.price });
 
     if (carts) {
         res.status(200).json({
-            // totalProducts: carts.length,
             datas: carts,
-            totalPrice
+            totalPrice: carts.totalPrice
         })
     } else {
         next(new CustomeError("Cart is not found", 404));

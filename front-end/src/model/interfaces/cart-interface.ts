@@ -1,7 +1,10 @@
 import { IntProductList } from "./product-interface"
 
 export interface InterfaceCartResponse {
-    products: IntProductList[];
+    cartProducts: [{
+        productId: IntProductList[],
+        quandity: number
+    }];
     qaunditity: number,
     totalPrice: number
 }

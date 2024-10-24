@@ -1,9 +1,17 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 interface userCartInterface {
     userId: mongoose.Schema.Types.ObjectId,
-    products:[mongoose.Schema.Types.ObjectId],
-    totalPrice:number
+    cartProducts: [
+        {
+            productId: Types.ObjectId,
+        },
+        {
+            qaunditity: number
+        },
+        
+    ],
+    totalPrice: number
 }
 
 export default userCartInterface

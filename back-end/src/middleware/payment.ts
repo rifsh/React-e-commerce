@@ -13,7 +13,7 @@ dotenv.config({ path: path.join(__dirname, '../../config.env') });
 export const paymentMethod = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.id;
     const CartProducts = await CartModel.findOne({ userId })
-    const prdcts = await producModel.find({ _id: CartProducts.products });
+    const prdcts = await producModel.find({ _id: CartProducts.cartProducts });
     
     if (!userId || !prdcts || !CartProducts) {
         return next(new CustomeError('User is not found', 404));
