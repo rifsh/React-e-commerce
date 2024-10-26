@@ -103,7 +103,8 @@ const addToCart = async (productId: ObjectId, userId: string, res: Response, nex
         res.status(200).json({
             status: "Success",
             message: "Product is already present in the cart"
-        })
+        });
+        return
     }
     if (!product || !userFinding) {
         next(new CustomeError("Product or User not found in the db", 404));
@@ -144,20 +145,22 @@ const viewCart = async (userId: string) => {
     const viewCart = await CartModel.findOne({ userId: userId }).populate({
         path: 'cartProducts.productId',
         model: 'productdetail',
-        select: 'title price image'
+        select: 'title price image category author'
     });;
     return viewCart
 }
 const deleteCart = async (id: string, prdctId: any, next: NextFunction): Promise<userCartInterface> => {
     const product: Product = await producModel.findById(prdctId);
-    const productFinding = await CartModel.findOne({ userId: id, products: prdctId });
+    const productFinding = await CartModel.findOne({ userId: id, 'cartProducts.productId': '65a4b8011f5463008b8899ec' });
     const checkUser = await CartModel.findOne({ userId: id });
-    if (checkUser && productFinding) {
-        const index = await checkUser.cartProducts.indexOf(prdctId);
-        await checkUser.cartProducts.splice(index, 1);
-        checkUser.totalPrice -= product.price;
-        await checkUser.save();
+    console.log(productFinding);
 
+    if (checkUser && productFinding) {
+        const result = await CartModel.updateOne(
+            { userId: id },
+            { $pull: { cartProducts: { _id: prdctId } } }
+        )
+        console.log(result);
         return checkUser
     }
     else if (!productFinding) {
@@ -166,7 +169,7 @@ const deleteCart = async (id: string, prdctId: any, next: NextFunction): Promise
     else if (!checkUser) {
         next(new CustomeError(`User not found with id ${id}`, 404));
     }
-}
+} 
 const addToWishList = async (productId: ObjectId, userId: string, res: Response, next: NextFunction) => {
     const prodcut: Product = await producModel.findById(productId);
     const existingUser = await wishListModel.findOne({ userId: userId });

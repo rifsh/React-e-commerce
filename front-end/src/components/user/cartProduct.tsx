@@ -1,25 +1,27 @@
 import { useContext, useEffect, useState } from "react"
 import { NavBarContext } from "./NavBarContext";
 import { userService } from "../../services/user-service";
-import { IntProductList } from "../../model/interfaces/product-interface";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { Bounce, toast } from "react-toastify";
 
-
 const CartProduct = () => {
-    const [products, setProducts] = useState<IntProductList[]>([]);
-    let [productCount, setProductCount] = useState<number>(1);
+    const [cartProducts, setProducts] = useState([]);
     const [totalPrice, setTotalPrice] = useState<number>(0);
     const { userId } = useContext(NavBarContext);
 
     const fetchCart = async () => {
         try {
             const products = await userService.fetchCartProducts(userId);
-            setTotalPrice(products.data.datas.totalPrice)
-            setProducts(products.data.datas.cartProducts.map((x) => x.productId).flat());
+            setTotalPrice(products.data.datas.totalPrice);
 
+            const updatedProducts = products.data.datas.cartProducts.map((x) => ({
+                ...x.productId,
+                quantity: x.qaunditity,
+                _id: x._id
+            }));
+            setProducts(updatedProducts);
         } catch (error) {
             throw error
         }
@@ -49,15 +51,10 @@ const CartProduct = () => {
     }, [userId]);
 
     const handleIncrement = (productId: string) => {
-        setProducts((prev) => {
-            console.log(prev.map((x) => { return x._id === productId }));
-            return prev
-        })
+        
     }
     const handleDecrement = (productId: string) => {
-        if (productCount > 0) {
-            setProductCount((prev) => prev - 1);
-        }
+
     }
 
     return (
@@ -69,12 +66,12 @@ const CartProduct = () => {
                         <p>Your Shopping Cart</p>
                     </h1>
                 </div>
-                {products?.length === 0 && <div className="flex justify-center">
+                {cartProducts?.length === 0 && <div className="flex justify-center">
                     <h1 className="text-2xl text-gray-500">Your cart is empty</h1>
                 </div>}
                 {/* Product-list */}
-                {products.length > 0 && <div className="grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
-                    {products.map((x) => {
+                {cartProducts.length > 0 && <div className="grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
+                    {cartProducts.map((x) => {
                         return (
                             <div className="flex items-center w-full" key={x._id}>
                                 <div
@@ -106,7 +103,7 @@ const CartProduct = () => {
                                             <span className="text-2xl font-bold">-</span>
                                         </button>
 
-                                        <span id="quantity" className="text-lg font-semibold">{productCount}</span>
+                                        <span id="quantity" className="text-lg font-semibold">{x.quantity}</span>
 
                                         <button
                                             id="incrementBtn"
@@ -132,7 +129,7 @@ const CartProduct = () => {
                         <FaLongArrowAltLeft className="me-3" />
                         <span>Back to shop</span>
                     </Link>
-                    {products.length > 0 && <p className="font-semibold text-gray-700 font-mono">Subtotal: <span className="font-extrabold font-mono">{totalPrice} $</span></p>}
+                    {cartProducts.length > 0 && <p className="font-semibold text-gray-700 font-mono">Subtotal: <span className="font-extrabold font-mono">{totalPrice} $</span></p>}
                 </div>
             </div>
             <div className="ms-3 md:flex-none w-full p-4 md:w-1/3 bg-gray-800 text-white shadow-xl shadow-gray-800 sticky top-0 h-[330px]">
