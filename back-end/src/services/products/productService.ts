@@ -145,31 +145,52 @@ const viewCart = async (userId: string) => {
     const viewCart = await CartModel.findOne({ userId: userId }).populate({
         path: 'cartProducts.productId',
         model: 'productdetail',
-        select: 'title price image category author'
     });;
     return viewCart
 }
 const deleteCart = async (id: string, prdctId: any, next: NextFunction): Promise<userCartInterface> => {
-    const product: Product = await producModel.findById(prdctId);
-    const productFinding = await CartModel.findOne({ userId: id, 'cartProducts.productId': '65a4b8011f5463008b8899ec' });
-    const checkUser = await CartModel.findOne({ userId: id });
-    console.log(productFinding);
+    try {
+        const product: Product = await producModel.findById(prdctId);
+        const productFinding = await CartModel.findOne({ userId: id, 'cartProducts.productId': prdctId });
+        const checkUser = await CartModel.findOne({ userId: id });
 
-    if (checkUser && productFinding) {
-        const result = await CartModel.updateOne(
-            { userId: id },
-            { $pull: { cartProducts: { _id: prdctId } } }
-        )
-        console.log(result);
-        return checkUser
+        if (checkUser && productFinding) {
+            const result = await CartModel.updateOne(
+                { userId: id },
+                { $pull: { cartProducts: { productId: prdctId } }, $inc: { totalPrice: -product.price } },
+            )
+            return checkUser
+        }
+        else if (!productFinding) {
+            next(new CustomeError(`Product not found with id ${prdctId}`, 404));
+        }
+        else if (!checkUser) {
+            next(new CustomeError(`User not found with id ${id}`, 404));
+        }
+    } catch (error) {
+        console.log(error);
     }
-    else if (!productFinding) {
-        next(new CustomeError(`Product not found with id ${prdctId}`, 404));
+}
+const quandityIncrement = async (userId: string, productId: string): Promise<string> => {
+    try {
+        const cart = await CartModel.findOne({ userId });
+        const product = await producModel.findById(productId);
+        if (cart) {
+            const increment = await CartModel.updateOne(
+                { userId: userId, "cartProducts.productId": productId },
+                {
+                    $inc: { "cartProducts.$.quandity": 1, totalPrice: product.price }
+                },{ new: true }
+            )
+            if (increment.modifiedCount === 0) {
+                return 'Product not found in cart';
+            }
+        }
+        return 'Product quantity and total price incremented successfully'
+    } catch (error) {
+        return `Error incrementing quantity and total price, ${error}`
     }
-    else if (!checkUser) {
-        next(new CustomeError(`User not found with id ${id}`, 404));
-    }
-} 
+}
 const addToWishList = async (productId: ObjectId, userId: string, res: Response, next: NextFunction) => {
     const prodcut: Product = await producModel.findById(productId);
     const existingUser = await wishListModel.findOne({ userId: userId });
@@ -288,6 +309,7 @@ export const productService = {
     addToCart,
     viewCart,
     deleteCart,
+    quandityIncrement,
     addToWishList,
     viewWishList,
     deleteWishList,

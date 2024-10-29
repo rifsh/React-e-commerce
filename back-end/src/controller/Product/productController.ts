@@ -132,10 +132,22 @@ const productByCatogory = catchAsync(async (req: Request, res: Response, next: N
     }
 })
 const qundityIncre = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const cart = await CartModel.findOne({ userId: req.params.id })
-    // const product = await producModel.findById(req.body.prdctID);
-    console.log(cart);
-
+    const userId: string = req.params.id;
+    const productId: string = req.body.productId;
+    const data = await productService.quandityIncrement(userId, productId);
+    if (data === 'Product not found in cart') {
+        res.status(404).json({
+            message: data
+        })
+    } else if (data === 'Product quantity and total price incremented successfully') {
+        res.status(200).json({
+            message: data
+        })
+    } else {
+        res.status(500).json({
+            message: data
+        })
+    }
 })
 const addToCart = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const productId: ObjectId = req.params.id as unknown as ObjectId;
@@ -164,7 +176,6 @@ const deleteCartItems = catchAsync(async (req: Request, res: Response, next: Nex
         res.status(200).json({
             status: "OK",
             message: "Removed successfully",
-
         })
     } else {
         next(new CustomeError("Something went wrong", 401));

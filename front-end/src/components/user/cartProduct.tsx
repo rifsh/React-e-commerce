@@ -5,6 +5,7 @@ import { FaLongArrowAltLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { Bounce, toast } from "react-toastify";
+import { productService } from "../../services/product-service";
 
 const CartProduct = () => {
     const [cartProducts, setProducts] = useState([]);
@@ -18,8 +19,7 @@ const CartProduct = () => {
 
             const updatedProducts = products.data.datas.cartProducts.map((x) => ({
                 ...x.productId,
-                quantity: x.qaunditity,
-                _id: x._id
+                quandity: x.quandity,
             }));
             setProducts(updatedProducts);
         } catch (error) {
@@ -28,6 +28,8 @@ const CartProduct = () => {
     }
     const handleDelete = async (productId: string) => {
         try {
+            console.log(productId);
+
             const resposne = await userService.deleteProductFromCart(productId, userId);
             toast.warning(resposne.data.message, {
                 position: "top-right",
@@ -50,8 +52,15 @@ const CartProduct = () => {
         fetchCart()
     }, [userId]);
 
-    const handleIncrement = (productId: string) => {
-        
+    const handleIncrement = async (productId: string) => {
+        try {
+            const quandityIncrement = await productService.quandityIncrement(userId, productId);
+            if (quandityIncrement.data.message === 'Product quantity and total price incremented successfully') {
+                fetchCart()
+            }
+        } catch (error) {
+
+        }
     }
     const handleDecrement = (productId: string) => {
 
@@ -103,14 +112,13 @@ const CartProduct = () => {
                                             <span className="text-2xl font-bold">-</span>
                                         </button>
 
-                                        <span id="quantity" className="text-lg font-semibold">{x.quantity}</span>
+                                        <span id="quantity" className="text-lg font-semibold">{x.quandity}</span>
 
                                         <button
-                                            id="incrementBtn"
-                                            className="bg-gray-200 text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-full w-10 h-10 flex justify-center items-center"
                                             onClick={() => handleIncrement(x._id)}
-                                        >
-                                            <span className="text-2xl font-bold">+</span>
+                                            id="incrementBtn"
+                                            className="bg-gray-200 text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 rounded-full w-10 h-10 flex justify-center items-center"                                        >
+                                            <span className="text-2xl font-bold" role="button">+</span>
                                         </button>
                                     </div>
 

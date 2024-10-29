@@ -7,7 +7,7 @@ interface userCartInterface {
             productId: Types.ObjectId,
         },
         {
-            qaunditity: number
+            quandity: number
         },
         
     ],

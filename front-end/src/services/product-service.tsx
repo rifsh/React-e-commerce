@@ -74,6 +74,12 @@ const addToCart = async (productId: string, id: string): Promise<boolean> => {
     }
 }
 
+const quandityIncrement = async (userId: string, prdId: string): Promise<AxiosResponse<{ message: string }>> => {
+    const productId = { productId: prdId }
+    const response = await userApi.post(`${userUrl}/${userId}/increment`, productId);
+    return response
+}
+
 export const productService = {
     fetchAllProducts,
     fetchProductsByPagination,
@@ -81,5 +87,6 @@ export const productService = {
     fetchCategories,
     fetchProductByCategories,
     fetchProductBySearchKey,
-    addToCart
+    addToCart,
+    quandityIncrement
 }

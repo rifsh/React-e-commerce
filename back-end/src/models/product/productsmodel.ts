@@ -6,28 +6,28 @@ function required(result: string): string {
 }
 
 const productSchema = new mongoose.Schema<Product>({
-    title:{
+    title: {
         type: String,
         required: [true, required('Title')],
         unique: true
     },
-    description:{
+    description: {
         type: String,
         required: [true, required('Description')]
     },
-    price:{
+    price: {
         type: Number,
         required: [true, required('Price')]
     },
-    image:{
+    image: {
         type: String,
         required: [true, required('Image')],
     },
-    author:{
+    author: {
         type: String,
         required: [true, required('Author')]
     },
-    category:{
+    category: {
         type: String,
         required: [true, required('Category')]
     }
