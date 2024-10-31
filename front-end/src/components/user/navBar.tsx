@@ -136,13 +136,13 @@ const NavBar: React.FC = () => {
                             </a >
                         </div >}
 
-                        <div className="h-12 w-12 rounded-full overflow-hidden object-cover">
+                        {userId && <div className="h-12 w-12 rounded-full overflow-hidden object-cover">
                             <Link to={''}>
                                 {!userImage && <FaRegUserCircle className="text-5xl" />}
                                 {userImage.loading && <Skeleton variant="rounded" animation='wave' width={100} height={100} />}
                                 {userImage && <img src={userImage.image} className="rounded-full" alt="" />}
                             </Link>
-                        </div >
+                        </div >}
                     </div>
                 </div>
 

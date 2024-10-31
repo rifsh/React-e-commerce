@@ -131,15 +131,17 @@ const productByCatogory = catchAsync(async (req: Request, res: Response, next: N
         })
     }
 })
-const qundityIncre = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const qundityHandling = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const userId: string = req.params.id;
     const productId: string = req.body.productId;
-    const data = await productService.quandityIncrement(userId, productId);
+    const quantityValue: string = req.query.value as string;
+    
+    const data = await productService.quandityIncrement(userId, productId, quantityValue);    
     if (data === 'Product not found in cart') {
         res.status(404).json({
             message: data
         })
-    } else if (data === 'Product quantity and total price incremented successfully') {
+    } else if (data === 'Product quantity and total price changed successfully') {
         res.status(200).json({
             message: data
         })
@@ -235,7 +237,7 @@ export const productController = {
     getGenre,
     deleteGenreById,
     productByCatogory,
-    qundityIncre,
+    qundityHandling,
     addToCart,
     viewCart,
     deleteCartItems,

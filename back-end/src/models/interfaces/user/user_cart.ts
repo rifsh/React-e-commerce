@@ -5,9 +5,7 @@ interface userCartInterface {
     cartProducts: [
         {
             productId: Types.ObjectId,
-        },
-        {
-            quandity: number
+            quantity: number
         },
         
     ],

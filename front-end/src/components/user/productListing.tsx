@@ -1,7 +1,7 @@
 import { ReactElement, useContext, useEffect, useState } from 'react';
 import { productService } from '../../services/product-service';
 import { IntProductList } from '../../model/interfaces/product-interface';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { NavBarContext } from './NavBarContext';
 import ProductListingSkeleton from '../skeletons/product-listing';
 import { InterfaceProductListProps } from '../../model/interfaces/props-interface';
@@ -16,6 +16,7 @@ function ProductListing({ value, cateogry, id }: InterfaceProductListProps): Rea
     const [page, setPage] = useState<number>(1);
     const [totalPage, setTotalPage] = useState<number>(0);
     const navBarContext = useContext(NavBarContext);
+    const url = useLocation();
 
     const fetchData = async () => {
         try {
@@ -161,13 +162,13 @@ function ProductListing({ value, cateogry, id }: InterfaceProductListProps): Rea
                     );
                 })}
             </div>
-            <Pagination
+            {url.pathname === '/all-products' && <Pagination
                 count={totalPage}
                 variant="outlined"
                 shape="rounded"
                 page={page}
                 onChange={handlePagination}
-            />
+            />}
         </div>
 
     )

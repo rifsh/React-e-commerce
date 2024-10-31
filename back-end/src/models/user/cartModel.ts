@@ -14,7 +14,7 @@ const cartSchema = new mongoose.Schema<userCartInterface>({
             required: [true, 'Please enter a valid productId'],
             ref: producModel
         },
-        quandity: {
+        quantity: {
             type: Number,
             default: 1
         }

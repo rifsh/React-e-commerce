@@ -74,9 +74,11 @@ const addToCart = async (productId: string, id: string): Promise<boolean> => {
     }
 }
 
-const quandityIncrement = async (userId: string, prdId: string): Promise<AxiosResponse<{ message: string }>> => {
-    const productId = { productId: prdId }
-    const response = await userApi.post(`${userUrl}/${userId}/increment`, productId);
+const quandityIncrement = async (userId: string, prdId: string, v: string): Promise<AxiosResponse<{ message: string }>> => {
+    const productId = { productId: prdId };
+    console.log(v);
+
+    const response = await userApi.post(`${userUrl}/${userId}/quantity?value=${v}`, productId);
     return response
 }
 

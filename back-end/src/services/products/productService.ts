@@ -148,45 +148,72 @@ const viewCart = async (userId: string) => {
     });;
     return viewCart
 }
-const deleteCart = async (id: string, prdctId: any, next: NextFunction): Promise<userCartInterface> => {
+const deleteCart = async (id: string, prdctId: any, next: NextFunction): Promise<true | void> => {
     try {
         const product: Product = await producModel.findById(prdctId);
         const productFinding = await CartModel.findOne({ userId: id, 'cartProducts.productId': prdctId });
         const checkUser = await CartModel.findOne({ userId: id });
 
         if (checkUser && productFinding) {
-            const result = await CartModel.updateOne(
-                { userId: id },
-                { $pull: { cartProducts: { productId: prdctId } }, $inc: { totalPrice: -product.price } },
-            )
-            return checkUser
+            const cart: userCartInterface = await CartModel.findOne({ userId: id, 'cartProducts.productId': prdctId });
+            const productInCart = cart.cartProducts.find(item => { return item.productId.toString() === prdctId.toString() });
+            if (productInCart) {
+                const { quantity } = productInCart;
+                await CartModel.updateOne(
+                    { userId: id },
+                    {
+                        $pull: { cartProducts: { productId: prdctId } },
+                        $inc: { totalPrice: -product.price * quantity }
+                    }
+                )
+            }
+            return true;
         }
         else if (!productFinding) {
-            next(new CustomeError(`Product not found with id ${prdctId}`, 404));
+            return next(new CustomeError(`Product not found with id ${prdctId}`, 404));
         }
         else if (!checkUser) {
-            next(new CustomeError(`User not found with id ${id}`, 404));
+            return next(new CustomeError(`User not found with id ${id}`, 404));
         }
     } catch (error) {
         console.log(error);
     }
 }
-const quandityIncrement = async (userId: string, productId: string): Promise<string> => {
+const quandityIncrement = async (userId: string, productId: string, value: string): Promise<string> => {
+    const cart = await CartModel.findOne({ userId });
+    const product = await producModel.findById(productId);
+    const productInCart = await cart.cartProducts.find((item => item.productId.toString() === productId.toString()));
+
     try {
-        const cart = await CartModel.findOne({ userId });
-        const product = await producModel.findById(productId);
-        if (cart) {
-            const increment = await CartModel.updateOne(
-                { userId: userId, "cartProducts.productId": productId },
-                {
-                    $inc: { "cartProducts.$.quandity": 1, totalPrice: product.price }
-                },{ new: true }
-            )
-            if (increment.modifiedCount === 0) {
-                return 'Product not found in cart';
+        if (value === 'inc' && productInCart.quantity >= 0) {
+
+            if (cart) {
+                const increment = await CartModel.updateOne(
+                    { userId: userId, "cartProducts.productId": productId },
+                    {
+                        $inc: { "cartProducts.$.quantity": 1, totalPrice: product.price }
+                    }, { new: true }
+                )
+                if (increment.modifiedCount === 0) {
+                    return 'Product not found in cart';
+                }
             }
+            return 'Product quantity and total price changed successfully';
         }
-        return 'Product quantity and total price incremented successfully'
+        if (value === 'dec' && productInCart.quantity > 0) {
+            if (cart) {
+                const increment = await CartModel.updateOne(
+                    { userId: userId, "cartProducts.productId": productId },
+                    {
+                        $inc: { "cartProducts.$.quantity": -1, totalPrice: -product.price }
+                    }, { new: true }
+                )
+                if (increment.modifiedCount === 0) {
+                    return 'Product not found in cart';
+                }
+            }
+            return 'Product quantity and total price changed successfully';
+        }
     } catch (error) {
         return `Error incrementing quantity and total price, ${error}`
     }
