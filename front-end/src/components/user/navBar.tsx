@@ -88,13 +88,13 @@ const NavBar: React.FC = () => {
                 <div className="hidden w-full md:flex space-x-6 md:items-center font-sans font-semibold h-full py-1 px-2 rounded-xl justify-between">
                     <div className="w-full max-w-[600px] flex items-end justify-end">
                         {url.pathname === '/all-products' && <input onChange={searchHandler}
-                            className="bg-gray-100 focus:outline-none border-2 border-gray-300 md:min-w-[400px] shrink ps-2 py-[13px] rounded-xl" type="text"
+                            className="bg-white focus:outline-none focus:border-blue-200 border-2 border-gray-300 md:min-w-[400px] shrink ps-2 py-[13px] rounded-xl" type="text"
                             placeholder="Search Book by author and title" />}
                     </div>
 
                     <div className="flex items-center justify-between min-w-[500px] text-lg" style={{ fontFamily: 'Roboto', fontWeight: 'lighter' }}>
                         <div>
-                            <Link to={'/all-products'} onClick={() => { handleCategories('all books') }}>All Books</Link>
+                            <Link to={'/all-products'} onClick={() => { handleCategories('all books') }}>Collections</Link>
                         </div>
                         {url.pathname === '/all-products' && <div className="flex flex-row items-center justify-center relative" onMouseOver={categories} onMouseLeave={hideCategories}>
                             <p className="text-black cursor-pointer">Categories</p>

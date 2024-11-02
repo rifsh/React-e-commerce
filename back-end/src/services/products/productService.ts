@@ -183,9 +183,10 @@ const quandityIncrement = async (userId: string, productId: string, value: strin
     const cart = await CartModel.findOne({ userId });
     const product = await producModel.findById(productId);
     const productInCart = await cart.cartProducts.find((item => item.productId.toString() === productId.toString()));
-
+    console.log(1);
+    
     try {
-        if (value === 'inc' && productInCart.quantity >= 0) {
+        if (value === 'inc' && productInCart.quantity >= 1) {
 
             if (cart) {
                 const increment = await CartModel.updateOne(
@@ -200,7 +201,7 @@ const quandityIncrement = async (userId: string, productId: string, value: strin
             }
             return 'Product quantity and total price changed successfully';
         }
-        if (value === 'dec' && productInCart.quantity > 0) {
+        if (value === 'dec' && productInCart.quantity > 1) {
             if (cart) {
                 const increment = await CartModel.updateOne(
                     { userId: userId, "cartProducts.productId": productId },

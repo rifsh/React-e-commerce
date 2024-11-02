@@ -133,7 +133,7 @@ function ProductListing({ value, cateogry, id }: InterfaceProductListProps): Rea
             <div className="grid items-center justify-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3  w-full">
                 {products?.map((x) => {
                     return (
-                        <div className="card-main h-[500px] max-w-[310px] shadow-lg rounded-md overflow-hidden" key={x._id}>
+                        <div className="card-main h-[520px] max-w-[310px] shadow-lg rounded-md overflow-hidden" key={x._id}>
                             <div className="img h-[400px] overflow-hidden" draggable='false' >
                                 <Link to={`/view-product/${x._id}`}>
                                     <img
@@ -150,14 +150,14 @@ function ProductListing({ value, cateogry, id }: InterfaceProductListProps): Rea
                                 </div>
                                 <div className='text-end'>
                                     <p className='font-bold text-gray-800'>₹{x.price}</p>
-                                    <button
-                                        onClick={() => { handleCart(x._id) }}
-                                        className='border border-black py-1 px-1 rounded-md font-bold hover:bg-gray-800 hover:text-white transition-all focus:ring-2 focus:ring-gray-500'>
-                                        <span>Add to cart</span>
-                                    </button>
                                 </div>
                             </div>
-
+                            <div className='w-full flex items-center justify-center mt-[10px]'>
+                                <button
+                                    className='border border-black py-1 px-6 rounded-md font-bold hover:bg-gray-800 hover:text-white transition-all focus:ring-2 focus:ring-gray-500'>
+                                    <span>Buy</span>
+                                </button>
+                            </div>
                         </div>
                     );
                 })}
