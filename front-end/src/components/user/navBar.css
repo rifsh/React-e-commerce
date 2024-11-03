@@ -2,6 +2,10 @@
     width: 100%;
 }
 
+.main-head {
+    font-family: cursive;
+    font-weight: 500;
+}
 
 nav {
     background-color: rgba(255, 255, 255, 0.5);
@@ -11,7 +15,7 @@ nav {
     /* For Safari */
     padding: 20px;
     /* Add some padding */
-    border-radius: 10px;
+    border-radius: 5px;
     /* Optional: Rounded corners */
     border: 1px solid rgba(255, 255, 255, 0.3);
     /* Optional: A subtle border */
@@ -47,6 +51,7 @@ a {
 
 .sam {
     transform: rotate(135deg);
+    background-color: #e600ff;
 }
 
 .category-div {

@@ -133,7 +133,7 @@ function ProductListing({ value, cateogry, id }: InterfaceProductListProps): Rea
             <div className="grid items-center justify-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3  w-full">
                 {products?.map((x) => {
                     return (
-                        <div className="card-main h-[520px] max-w-[310px] shadow-lg rounded-md overflow-hidden" key={x._id}>
+                        <div className="card-main pb-2 max-w-[310px] shadow-lg rounded-md overflow-hidden" key={x._id}>
                             <div className="img h-[400px] overflow-hidden" draggable='false' >
                                 <Link to={`/view-product/${x._id}`}>
                                     <img
@@ -149,7 +149,7 @@ function ProductListing({ value, cateogry, id }: InterfaceProductListProps): Rea
                                     <p>—{x.author} </p>
                                 </div>
                                 <div className='text-end'>
-                                    <p className='font-bold text-gray-800'>₹{x.price}</p>
+                                    <p className='font-bold text-gray-800' style={{fontFamily:'cursive'}}>₹{x.price}</p>
                                 </div>
                             </div>
                             <div className='w-full flex items-center justify-center mt-[10px]'>

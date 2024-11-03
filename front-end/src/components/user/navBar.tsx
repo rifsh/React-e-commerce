@@ -1,4 +1,3 @@
-import { ImBooks } from "react-icons/im";
 import './navBar.css';
 import { Link, Location, useLocation } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
@@ -80,21 +79,22 @@ const NavBar: React.FC = () => {
     return (
         <nav className="bg-opacity-10 px-4 py-[12px] sticky w-full shadow-lg shadow-gray-300">
             <div className="justify-between flex items-center">
-                <div className="text-black text-2xl font-bold flex items-center">
-                    <ImBooks className='text-4xl' />
-                    <Link to={'/'} className="main-head font-mono text-4xl">Books</Link>
+                <div className="text-black text-2xl font-bold flex items-center relative">
+                    {/* <ImBooks className='text-4xl' /> */}
+                    <Link to={'/'} className="main-head text-4xl me-[12px]">Books</Link>
+                    {/* <div className="h-[10px] w-[10px] bg-[#f196ff] rounded-full absolute right-0 bottom-[3px]"></div> */}
                 </div>
 
-                <div className="hidden w-full md:flex space-x-6 md:items-center font-sans font-semibold h-full py-1 px-2 rounded-xl justify-between">
+                <div className="hidden w-full md:flex space-x-6 md:items-center font-semibold h-full py-1 px-2 rounded-xl justify-between">
                     <div className="w-full max-w-[600px] flex items-end justify-end">
                         {url.pathname === '/all-products' && <input onChange={searchHandler}
                             className="bg-white focus:outline-none focus:border-blue-200 border-2 border-gray-300 md:min-w-[400px] shrink ps-2 py-[13px] rounded-xl" type="text"
                             placeholder="Search Book by author and title" />}
                     </div>
 
-                    <div className="flex items-center justify-between min-w-[500px] text-lg" style={{ fontFamily: 'Roboto', fontWeight: 'lighter' }}>
+                    <div className="flex items-center justify-between min-w-[500px] text-lg" style={{ fontFamily: '-moz-initial', fontWeight: 'lighter' }}>
                         <div>
-                            <Link to={'/all-products'} onClick={() => { handleCategories('all books') }}>Collections</Link>
+                            <Link to={'/all-products'} title="collections" onClick={() => { handleCategories('all books') }}>Collections</Link>
                         </div>
                         {url.pathname === '/all-products' && <div className="flex flex-row items-center justify-center relative" onMouseOver={categories} onMouseLeave={hideCategories}>
                             <p className="text-black cursor-pointer">Categories</p>
@@ -144,12 +144,12 @@ const NavBar: React.FC = () => {
                             </Link>
                         </div >}
                     </div>
+                    
                 </div>
 
                 <div className="md:hidden">
                     <button id="menu-toggle" className="text-white focus:outline-none">
                         <p className="text-black">Button</p>
-
                     </button>
                 </div>
             </div>

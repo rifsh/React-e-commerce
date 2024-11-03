@@ -122,7 +122,7 @@ const CartProduct = () => {
 
                                         {/* Price */}
                                         <div className="text-right flex-1">
-                                            <p className="text-xl font-bold text-gray-700">${x.price}</p>
+                                            <p className="text-xl font-bold text-gray-700" style={{fontFamily:'-moz-initial'}}>₹{x.price}</p>
                                         </div>
                                     </div>
                                     <MdOutlineDeleteOutline onClick={() => handleDelete(x._id)} role="button" className="text-4xl ms-3" />
@@ -136,7 +136,7 @@ const CartProduct = () => {
                         <FaLongArrowAltLeft className="me-3" />
                         <span>Back to shop</span>
                     </Link>
-                    {cartProducts.length > 0 && <p className="font-semibold text-gray-700 font-mono">Subtotal: <span className="font-extrabold font-mono">{totalPrice} $</span></p>}
+                    {cartProducts.length > 0 && <p className="font-semibold text-gray-700 font-mono">Subtotal: <span className="font-extrabold" style={{fontFamily:'-moz-initial'}}>{totalPrice}&nbsp;₹</span></p>}
                 </div>
             </div>
             <div className="mt-10 md:mt-0 md:ms-3 md:flex-none w-full p-4 md:w-1/3 bg-gray-800 text-white shadow-xl shadow-gray-800 sticky top-0 h-[330px]">
