@@ -4,7 +4,6 @@ import catchAsync from "../../utils/asyncHandler";
 import { orderModel } from "../../models/user/orderModel";
 import { CustomeError } from "../../utils/customerror";
 import { ObjectId } from "mongoose";
-import { CartModel } from "../../models/user/cartModel";
 import { Genre, Product } from "../../models/interfaces/products_interface";
 
 const addProduct = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -135,8 +134,8 @@ const qundityHandling = catchAsync(async (req: Request, res: Response, next: Nex
     const userId: string = req.params.id;
     const productId: string = req.body.productId;
     const quantityValue: string = req.query.value as string;
-    
-    const data = await productService.quandityIncrement(userId, productId, quantityValue);    
+
+    const data = await productService.quandityIncrement(userId, productId, quantityValue);
     if (data === 'Product not found in cart') {
         res.status(404).json({
             message: data
@@ -204,6 +203,9 @@ const deleteWishlistprdct = catchAsync(async (req: Request, res: Response, next)
         next(new CustomeError("Something send wrong", 401));
     }
 })
+const addToOrder = catchAsync(async (req: Request, res: Response, next) => {
+    
+})
 const userPayment = catchAsync(async (req: Request, res: Response, next) => {
     const payment = await productService.payment(req, res, next);
 })
@@ -244,6 +246,7 @@ export const productController = {
     addWishList,
     viewWishlist,
     deleteWishlistprdct,
+    addToOrder,
     userPayment,
     succes,
     cancel,

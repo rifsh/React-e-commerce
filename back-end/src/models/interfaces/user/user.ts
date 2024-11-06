@@ -11,7 +11,7 @@ export interface userInterface {
     comparePassword(candidatePwsrd: string, dbPswrd: string): Promise<boolean>;
 }
 
-interface Address {
+export interface Address {
     state: string,
     city: string,
     street: string,

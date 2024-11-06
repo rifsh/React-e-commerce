@@ -3,26 +3,28 @@
 }
 
 .main-head {
-    font-family: cursive;
+    font-family: cursive;   
     font-weight: 500;
 }
 
 nav {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: white;
     /* Semi-transparent background */
     backdrop-filter: blur(10px);
     /* Apply the blur effect */
     /* For Safari */
     padding: 20px;
     /* Add some padding */
-    border-radius: 5px;
+    /* border-radius: 5px; */
     /* Optional: Rounded corners */
     border: 1px solid rgba(255, 255, 255, 0.3);
     /* Optional: A subtle border */
     color: #333;
     /* Text color */
 }
-
+Link:active {
+    background-color: yellow;
+}
 .dropdown-menu li {
     transition: transform 0.5s;
 }

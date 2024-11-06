@@ -7,7 +7,7 @@ import { Users } from "../../models/user/usermodel";
 import { producModel } from "../../models/product/productsmodel";
 import { adminModel } from "../../models/admin/login";
 import { Product } from "../../models/interfaces/products_interface";
-import { userInterface } from "../../models/interfaces/user/user_model";
+import { userInterface } from "../../models/interfaces/user/user";
 
 
 dotenv.config({ path: path.join(__dirname, '../../../../config.env') });

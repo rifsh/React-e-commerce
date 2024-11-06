@@ -147,15 +147,13 @@ function ProductListing({ value, cateogry, id }: InterfaceProductListProps): Rea
                                 <div>
                                     <h1 className='text-lg font-semibold font-sans '>{x.title}</h1>
                                     <p>—{x.author} </p>
-                                </div>
-                                <div className='text-end'>
-                                    <p className='font-bold text-gray-800' style={{fontFamily:'cursive'}}>₹{x.price}</p>
+                                    <p className='font-bold text-gray-800' style={{ fontFamily: 'cursive' }}>₹{x.price}</p>
                                 </div>
                             </div>
                             <div className='w-full flex items-center justify-center mt-[10px]'>
                                 <button
                                     className='border border-black py-1 px-6 rounded-md font-bold hover:bg-gray-800 hover:text-white transition-all focus:ring-2 focus:ring-gray-500'>
-                                    <span>Buy</span>
+                                    <span>Buy now</span>
                                 </button>
                             </div>
                         </div>
@@ -163,6 +161,7 @@ function ProductListing({ value, cateogry, id }: InterfaceProductListProps): Rea
                 })}
             </div>
             {url.pathname === '/all-products' && <Pagination
+                className='mt-10'
                 count={totalPage}
                 variant="outlined"
                 shape="rounded"

@@ -5,16 +5,19 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';  // To enable carousel funct
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce, ToastContainer } from 'react-toastify';
 import React, { Suspense } from 'react';
+import ProfilePage from './pages/user/profilePage';
 
 // Lazy load components
 const AuthLayout = React.lazy(() => import('./components/auth/layout'));
 const AuthLogin = React.lazy(() => import('./pages/auth/login'));
 const AuthRegister = React.lazy(() => import('./pages/auth/register'));
+const UserProfile = React.lazy(() => import('./pages/user/profilePage'));
 const Layout = React.lazy(() => import('./components/user/layout'));
 const Landing = React.lazy(() => import('./pages/user/landing'));
 const ProductList = React.lazy(() => import('./pages/user/productList'));
 const ViewProductPage = React.lazy(() => import('./pages/user/view-product-page'));  // Fixed naming
 const CartPage = React.lazy(() => import('./pages/user/cartPage'));
+const OrderPage = React.lazy(() => import('./pages/user/orderPage'))
 
 function App() {
   return (
@@ -23,9 +26,11 @@ function App() {
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route path='/' element={<Landing />} />
+            <Route path='/user' element={<ProfilePage />} />
             <Route path='/all-products' element={<ProductList />} />
             <Route path='/view-product/:id' element={<ViewProductPage />} />  {/* Fixed naming */}
             <Route path='/cart' element={<CartPage />} />
+            <Route path='/order' element={<OrderPage />} />
           </Route>
 
           <Route path='/auth' element={<AuthLayout />}>

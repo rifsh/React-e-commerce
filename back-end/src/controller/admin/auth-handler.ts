@@ -23,6 +23,8 @@ const users = catchAsync(async (req: Response, res: Response, next: NextFunction
 })
 const userById = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const user = await admin_srvc.userById(req, next);
+    console.log(user);
+    
     res.status(200).json({
         status: 'success',
         message: 'Successfully fetched user data.',

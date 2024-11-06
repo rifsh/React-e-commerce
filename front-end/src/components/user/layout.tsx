@@ -28,7 +28,9 @@ function Layout() {
                 {url.pathname !== '/cart' && <div className="fixed top-0 z-50 w-full">
                     <NavBar />
                 </div>}
-                <div className="mt-24">
+                <div className="mt-24" style={{
+                    padding: url.pathname !== '/' ? '20px 30px': '0px'
+                }}>
                     <Outlet />
                 </div>
                 {url.pathname !== '/cart' && <Footer />}

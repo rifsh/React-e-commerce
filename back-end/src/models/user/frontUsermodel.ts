@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrpt from 'bcryptjs';
-import { userInterface } from '../interfaces/user/user_model';
+import { userInterface } from '../interfaces/user/user';
 
 
 const userSchema = new mongoose.Schema<userInterface>({

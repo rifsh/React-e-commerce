@@ -3,7 +3,7 @@ import { Users } from "../../models/user/usermodel";
 import { userToken } from "../../utils/token";
 import { CustomeError } from "../../utils/customerror";
 import { Usersignup } from "../../models/interfaces/user/userSignup";
-import { userInterface } from "../../models/interfaces/user/user_model";
+import { userInterface } from "../../models/interfaces/user/user";
 
 
 //JWT_token

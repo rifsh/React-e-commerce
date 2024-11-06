@@ -77,91 +77,105 @@ const NavBar: React.FC = () => {
     }
 
     return (
-        <nav className="bg-opacity-10 px-4 py-[12px] sticky w-full shadow-lg shadow-gray-300">
-            <div className="justify-between flex items-center">
-                <div className="text-black text-2xl font-bold flex items-center relative">
-                    {/* <ImBooks className='text-4xl' /> */}
-                    <Link to={'/'} className="main-head text-4xl me-[12px]">Books</Link>
-                    {/* <div className="h-[10px] w-[10px] bg-[#f196ff] rounded-full absolute right-0 bottom-[3px]"></div> */}
+        <nav className="bg-opacity-10 px-4 py-[6px] sticky w-full shadow-sm shadow-gray-100">
+            <div className="flex justify-between items-center">
+                {/* Logo Section */}
+                <div className="text-black text-2xl font-bold flex items-start relative">
+                    <Link to={'/'}>
+                        <img src="../../../public/assets/booklogo.png" alt="Book Logo" />
+                    </Link>
                 </div>
 
-                <div className="hidden w-full md:flex space-x-6 md:items-center font-semibold h-full py-1 px-2 rounded-xl justify-between">
-                    <div className="w-full max-w-[600px] flex items-end justify-end">
-                        {url.pathname === '/all-products' && <input onChange={searchHandler}
-                            className="bg-white focus:outline-none focus:border-blue-200 border-2 border-gray-300 md:min-w-[400px] shrink ps-2 py-[13px] rounded-xl" type="text"
-                            placeholder="Search Book by author and title" />}
+                {/* Desktop Menu */}
+                <div className="hidden md:flex space-x-6 items-center font-semibold h-full py-1 px-2 rounded-xl">
+                    {/* Search Bar */}
+                    <div className="w-full max-w-[600px] flex justify-end">
+                        {url.pathname === '/all-products' && (
+                            <input
+                                onChange={searchHandler}
+                                className="bg-white focus:outline-none focus:border-blue-200 border-2 border-gray-300 md:min-w-[400px] px-2 py-[13px] rounded-xl"
+                                type="text"
+                                placeholder="Search Book by author and title"
+                            />
+                        )}
                     </div>
 
-                    <div className="flex items-center justify-between min-w-[500px] text-lg" style={{ fontFamily: '-moz-initial', fontWeight: 'lighter' }}>
-                        <div>
-                            <Link to={'/all-products'} title="collections" onClick={() => { handleCategories('all books') }}>Collections</Link>
-                        </div>
-                        {url.pathname === '/all-products' && <div className="flex flex-row items-center justify-center relative" onMouseOver={categories} onMouseLeave={hideCategories}>
-                            <p className="text-black cursor-pointer">Categories</p>
-                            {showCategories && <div className="category-div flex flex-col  justify-center w-[130px] bg-gray-100 absolute top-[21px] left-0 py-1 rounded-md">
-                                {!bookCategories.loading && !bookCategories.error && bookCategories.data.map((x) => {
-                                    return (
-                                        <div className="flex flex-col hover:scale-105 transition-all justify-center" key={x._id}>
-                                            <p role="button" onClick={() => { handleCategories(x.name) }} className="py-1 ps-2 font-normal">{x.name}</p>
-                                        </div>
-                                    )
-                                })}
-                                {bookCategories.loading && !bookCategories.error && item.map((x) => {
-                                    return (
-                                        <Skeleton animation="wave" height={30} key={x.valueOf()} />
-                                    )
-                                })}
-                                {bookCategories.error && <div><h1>{bookCategories.error}</h1></div>}
-                            </div>}
-                        </div >}
+                    {/* Links and Categories */}
+                    <div className="flex items-center space-x-6 text-lg font-light" style={{ fontFamily: 'sans-serif' }}>
+                        <Link to={'/all-products'} title="Collections" onClick={() => handleCategories('all books')}>Collections</Link>
 
-                        <div className="">
-                            <Link to={'cart'}>Cart</Link>
-                        </div >
+                        {url.pathname === '/all-products' && (
+                            <div
+                                className="relative flex items-center cursor-pointer"
+                                onMouseOver={categories}
+                                onMouseLeave={hideCategories}
+                            >
+                                <p>Categories</p>
+                                {showCategories && (
+                                    <div className="category-div flex flex-col justify-center w-[130px] bg-gray-100 absolute top-[21px] left-0 py-1 rounded-md shadow-lg">
+                                        {!bookCategories.loading && !bookCategories.error && bookCategories.data.map((x) => (
+                                            <p
+                                                key={x._id}
+                                                role="button"
+                                                onClick={() => handleCategories(x.name)}
+                                                className="py-1 px-2 hover:bg-gray-200 transition-colors rounded-md"
+                                            >
+                                                {x.name}
+                                            </p>
+                                        ))}
+                                        {bookCategories.loading && item.map((x) => (
+                                            <Skeleton animation="wave" height={30} key={x.valueOf()} />
+                                        ))}
+                                        {bookCategories.error && <div><h1>{bookCategories.error}</h1></div>}
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
-                        <div className="">
-                            <a className="text-black flex items-center" >
-                                <p className="me-1">Wishlist</p>
-                            </a >
-                        </div >
+                        {/* User Links */}
+                        {userId && <Link to={'/cart'}>Cart</Link>}
+                        {userId && (
+                            <a className="text-black flex items-center">
+                                <p className="mr-1">Wishlist</p>
+                            </a>
+                        )}
 
+                        {!isLogged ? (
+                            <Link to={'/auth/login'} className='hover:bg-gray-100 py-2 px-3 rounded-e-md transition-all'>Login</Link>
+                        ) : (
+                            <Link to={'/auth/login'} className='hover:bg-gray-100 py-2 px-3 rounded-e-md transition-all' onClick={logOutHandler}>Logout</Link>
+                        )}
 
-                        {!isLogged && <div className="">
-                            <Link to={'auth/login'}>Login</Link>
-                        </div >}
-
-                        {isLogged && <div className="logout w-20 h-9 rounded-lg hover:bg-[#ededed80] transition-all">
-                            <a role="button" onClick={logOutHandler} className="text-black h-full w-full flex items-center justify-center">
-                                <p>Logout</p>
-                            </a >
-                        </div >}
-
-                        {userId && <div className="h-12 w-12 rounded-full overflow-hidden object-cover">
-                            <Link to={''}>
-                                {!userImage && <FaRegUserCircle className="text-5xl" />}
-                                {userImage.loading && <Skeleton variant="rounded" animation='wave' width={100} height={100} />}
-                                {userImage && <img src={userImage.image} className="rounded-full" alt="" />}
-                            </Link>
-                        </div >}
+                        {/* Profile Picture */}
+                        {userId && (
+                            <div className="h-12 w-12 rounded-full overflow-hidden">
+                                <Link to={'/user'}>
+                                    {!userImage && <FaRegUserCircle className="text-5xl" />}
+                                    {userImage.loading && <Skeleton variant="rounded" animation='wave' width={100} height={100} />}
+                                    {userImage && <img src={userImage.image} className="rounded-full" alt="User" />}
+                                </Link>
+                            </div>
+                        )}
                     </div>
-                    
                 </div>
 
+                {/* Mobile Menu Toggle */}
                 <div className="md:hidden">
-                    <button id="menu-toggle" className="text-white focus:outline-none">
-                        <p className="text-black">Button</p>
+                    <button id="menu-toggle" className="text-black focus:outline-none">
+                        <p>Menu</p>
                     </button>
                 </div>
             </div>
 
+            {/* Mobile Menu */}
+            <div id="mobile-menu" className="hidden md:hidden mt-2">
+                <Link to="/" className="block py-2 px-4 text-black hover:bg-gray-100">Home</Link>
+                <Link to="/about" className="block py-2 px-4 text-black hover:bg-gray-100">About</Link>
+                <Link to="/services" className="block py-2 px-4 text-black hover:bg-gray-100">Services</Link>
+                <Link to="/contact" className="block py-2 px-4 text-black hover:bg-gray-100">Contact</Link>
+            </div>
+        </nav>
 
-            {/* <div id="mobile-menu" className="hidden md:hidden mt-2">
-                <a href="#" className="block py-2 px-4 text-white hover:bg-blue-700">Home</a>
-                <a href="#" className="block py-2 px-4 text-white hover:bg-blue-700">About</a>
-                <a href="#" className="block py-2 px-4 text-white hover:bg-blue-700">Services</a>
-                <a href="#" className="block py-2 px-4 text-white hover:bg-blue-700">Contact</a>
-            </div> */}
-        </nav >
     )
 }
 

@@ -1,32 +1,36 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
+import { OrderInterface } from "../interfaces/user/userOrder";
 import { Users } from "./usermodel";
 import { producModel } from "../product/productsmodel";
 
-const orderSchema = new mongoose.Schema({
-    userid: {
-        type: mongoose.Schema.Types.ObjectId,
-        require: [true, "Userid is not present"],
+const orderSchema = new mongoose.Schema<OrderInterface>({
+    userId: {
+        type: Schema.Types.ObjectId,
         ref: Users
     },
-    products: [{
-        type: mongoose.Schema.Types.ObjectId,
-        required: [true, 'Please enter a valid productId'],
-        ref:producModel
-    }],
-    purchaseDate: {
-        type: Date,
-        default: new Date().getDate()
-    },
-    orderId: {
-        type: String,
-        require: true
+    books: {
+        type: [Schema.Types.ObjectId],
+        ref: producModel
     },
     totalPrice: {
         type: Number
     },
-    totalItems: {
-        type: Number
+    shippingAddress: {
+        state: {
+            types: String,
+        },
+        city: {
+            types: String,
+            // required: true
+        },
+        street: {
+            types: String,
+        },
+        pinCode: {
+            types: Number,
+        },
     }
+
 })
 
 export const orderModel = mongoose.model('Order', orderSchema);

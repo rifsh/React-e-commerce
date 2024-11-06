@@ -5,9 +5,9 @@ import { CustomeError } from "../../utils/customerror";
 import { ObjectId } from "mongoose";
 import { Users } from "../../models/user/usermodel";
 import { CartModel } from "../../models/user/cartModel";
-import userCartInterface from "../../models/interfaces/user/user_cart";
+import userCartInterface from "../../models/interfaces/user/userCart";
 import { wishListModel } from "../../models/user/wishlistModel";
-import wishlistInterface from "../../models/interfaces/user/wishlist_model";
+import wishlistInterface from "../../models/interfaces/user/wishlist";
 import { paymentMethod } from "../../middleware/payment";
 import { genreModel } from "../../models/product/genre.model";
 

@@ -37,7 +37,7 @@ const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
     }
 
     return (
-        <div className="w-full min-h-screen bg-gray-100 p-5 flex flex-col">
+        <div className="w-full min-h-screen flex flex-col">
             {!product && <ProductViewingSkeleton />}
             {product && (
                 <div className="flex flex-col lg:flex-row h-full items-center justify-center lg:space-x-10 space-y-10 lg:space-y-0">
@@ -90,7 +90,7 @@ const ViewProduct: React.FC<InterfaceViewProductProps> = ({ productId }) => {
                 </div>
             )}
             <div className='md:mt-14'>
-                <h1 className='text-6xl font-sans my-3'>Related products</h1>
+                <h1 className="text-3xl font-thin mb-4">RELATED <span className="font-normal">COLLECTIONS ——</span></h1>
                 {product && <ProductListing value='related' cateogry={product.category} id={product._id} />}
             </div>
         </div>
