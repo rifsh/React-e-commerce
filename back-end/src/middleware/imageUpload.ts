@@ -36,7 +36,7 @@ export const imgUpload = async (req: Request, res: Response, next: NextFunction)
             next(new CustomeError(err.message, 401));
         }
         try {
-            
+
             const result = await cloudin.uploader.upload(req.file.path, {
                 folder: "products"
             })
@@ -53,9 +53,15 @@ export const imgUpload = async (req: Request, res: Response, next: NextFunction)
     })
 }
 export const userImgUpload = (req: Request, res: Response, next: NextFunction) => {
+    
     upload.single("profileImg")(req, res, async (err) => {
+        console.log(req.file); 
         if (err) {
             next(new CustomeError('Not uplaoded', 401));
+        }
+        if (!req.file) {
+            console.log("No file uploaded, proceeding without it");
+            return next();
         }
         try {
             const result = await cloudin.uploader.upload(req.file.path, {
@@ -74,4 +80,4 @@ export const userImgUpload = (req: Request, res: Response, next: NextFunction) =
             next(new CustomeError('Error uploading file to Cloudinary', 404));
         }
     })
-} 
+}

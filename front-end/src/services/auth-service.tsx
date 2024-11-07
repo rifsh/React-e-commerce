@@ -1,22 +1,13 @@
 import axios, { AxiosResponse } from "axios"
-import { UserLoginInterface, UserRegisrationInterface } from "../model/interfaces/user-interface";
+import { UserLoginInterface, UserInterface, UserRegistrationInterface } from "../model/interfaces/user-interface";
 import { Bounce, toast } from "react-toastify";
 const baseUrl = 'http://localhost:3000/api/users';
 
-const userRegistration = async (regData: UserRegisrationInterface): Promise<AxiosResponse<{ status: string }>> => {
+const userRegistration = async (regData: UserRegistrationInterface): Promise<AxiosResponse<{ status: string }>> => {
     try {
-        console.log(regData.image);
-        const formData = new FormData();
-        formData.append('name', regData.name);
-        formData.append('userName', regData.userName);
-        formData.append('email', regData.email);
-        formData.append('profileImg', regData.image);
-        formData.append('password', regData.password);
-        formData.append('confirmPassword', regData.confirmPassword);
-        const response: AxiosResponse<{ status: string }> = await axios.post(`${baseUrl}/signup`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+        // console.log(regData);
+        
+        const response: AxiosResponse<{ status: string }> = await axios.post(`${baseUrl}/signup`, regData, {
         });
         return response;
     } catch (error) {
@@ -33,9 +24,9 @@ const userRegistration = async (regData: UserRegisrationInterface): Promise<Axio
         });
     }
 }
-const userLogin = async (loginData: UserLoginInterface): Promise<AxiosResponse<{ status: string, token: string, user: UserRegisrationInterface }>> => {
+const userLogin = async (loginData: UserLoginInterface): Promise<AxiosResponse<{ status: string, token: string, user: UserInterface }>> => {
     try {
-        const response: AxiosResponse<{ status: string, token: string, user: UserRegisrationInterface }> = await axios.post(`${baseUrl}/login`, loginData);
+        const response: AxiosResponse<{ status: string, token: string, user: UserInterface }> = await axios.post(`${baseUrl}/login`, loginData);
         return response
     } catch (error) {
         return error

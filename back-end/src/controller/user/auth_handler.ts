@@ -2,15 +2,15 @@ import { NextFunction, Request, Response } from 'express';
 import * as dotenv from 'dotenv';
 import path from 'path'
 import catchAsync from '../../utils/asyncHandler';
-import { userSrvc } from '../../services/user/user-service';
+import { userSrvc } from '../../services/user/auth-service';
 import { userToken } from '../../utils/token';
 import { Usersignup } from '../../models/interfaces/user/userSignup';
-import { Users } from '../../models/user/usermodel';
+import { Users } from '../../models/schemas/user/usermodel';
 
 dotenv.config({ path: path.join(__dirname, '../../config.env') });
 
 const signUp = catchAsync(async (req: Request, res: Response) => {
-    const userDatas: Usersignup = req.body;
+    const userDatas: Usersignup = req.body;    
     const users = await userSrvc.signUp(userDatas);
     if (users === 'Account created successfully') {
         res.status(200).json({

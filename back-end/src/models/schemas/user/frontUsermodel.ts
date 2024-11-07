@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrpt from 'bcryptjs';
-import { userInterface } from '../interfaces/user/user';
+import { userInterface } from '../../interfaces/user/user';
+
 
 const userSchema = new mongoose.Schema<userInterface>({
     name: {
@@ -38,27 +39,17 @@ const userSchema = new mongoose.Schema<userInterface>({
         type: String,
         required: [true, 'Image is required']
     },
-    address: [
-        {
-            state: { type: String },
-            city: { type: String },
-            street: { type: String },
-            pinCode: { type: Number }
-        }, {
-            required: false
-        }
-    ],
     isDeleted: {
         type: Boolean,
         default: false,
         select: false
     },
-    cretedOn: {
+    cretedOn:{
         type: Date,
         default: new Date().getDate(),
         select: false
     }
-
+    
 })
 
 userSchema.pre('save', async function (next) {
@@ -77,5 +68,4 @@ userSchema.methods.comparePassword = async function (candidatePassword: string, 
     return bcrpt.compare(candidatePassword, dbpswrd); // Compare candidate password with stored hash
 };
 
-export const Users = mongoose.model<userInterface>('userDetail', userSchema);
-
+export const Users = mongoose.model('userDetail', userSchema);

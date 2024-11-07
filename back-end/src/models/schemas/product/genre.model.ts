@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Genre } from "../interfaces/products_interface";
+import { Genre } from "../../interfaces/products_interface";
 
 const schema = new mongoose.Schema<Genre>({
     name: {

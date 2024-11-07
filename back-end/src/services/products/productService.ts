@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import { Genre, Product } from "../../models/interfaces/products_interface";
-import { producModel } from "../../models/product/productsmodel";
+import { producModel } from "../../models/schemas/product/productsmodel";
 import { CustomeError } from "../../utils/customerror";
 import { ObjectId } from "mongoose";
-import { Users } from "../../models/user/usermodel";
-import { CartModel } from "../../models/user/cartModel";
+import { Users } from "../../models/schemas/user/usermodel";
+import { CartModel } from "../../models/schemas/user/cartModel";
 import userCartInterface from "../../models/interfaces/user/userCart";
-import { wishListModel } from "../../models/user/wishlistModel";
+import { wishListModel } from "../../models/schemas/user/wishlistModel";
 import wishlistInterface from "../../models/interfaces/user/wishlist";
 import { paymentMethod } from "../../middleware/payment";
-import { genreModel } from "../../models/product/genre.model";
+import { genreModel } from "../../models/schemas/product/genre.model";
 
 
 const addproduts = async (product: Product): Promise<Product> => {

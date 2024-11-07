@@ -3,9 +3,9 @@ import Stripe from "stripe";
 import dotenv from "dotenv";
 import path from "path";
 import catchAsync from "../utils/asyncHandler";
-import { Users } from "../models/user/usermodel";
-import { CartModel } from "../models/user/cartModel";
-import { producModel } from "../models/product/productsmodel";
+import { Users } from "../models/schemas/user/usermodel";
+import { CartModel } from "../models/schemas/user/cartModel";
+import { producModel } from "../models/schemas/product/productsmodel";
 import { CustomeError } from "../utils/customerror";
 
 dotenv.config({ path: path.join(__dirname, '../../config.env') });

@@ -18,7 +18,8 @@ export const NavBarProvider = ({ children }: { children: ReactNode }) => {
     const [data, setData] = useState<string>("");
     const [searchValue, setSearchValue] = useState<string>("");
     const [userId, setUserId] = useState(localStorage.getItem('userId'))
-
+    console.log(data);
+    
     return (
         <NavBarContext.Provider value={{ data, setData, searchValue, setSearchValue, userId, setUserId }}>
             {children}

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { productService } from "../../services/products/productService";
 import catchAsync from "../../utils/asyncHandler";
-import { orderModel } from "../../models/user/orderModel";
+import { orderModel } from "../../models/schemas/user/orderModel";
 import { CustomeError } from "../../utils/customerror";
 import { ObjectId } from "mongoose";
 import { Genre, Product } from "../../models/interfaces/products_interface";

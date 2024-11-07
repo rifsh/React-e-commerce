@@ -1,10 +1,19 @@
-export interface UserRegisrationInterface {
-    _id:string
+export interface UserInterface {
+    _id: string
     name: string,
     userName: string,
     email: string,
     image: string,
-    address: [Address],
+    address?: [Address],
+    password: string,
+    confirmPassword: string,
+}
+export interface UserRegistrationInterface {
+    name: string,
+    userName: string,
+    email: string,
+    image: string,
+    address?: [Address],
     password: string,
     confirmPassword: string,
 }

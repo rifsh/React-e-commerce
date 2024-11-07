@@ -1,5 +1,5 @@
 import { Params } from "react-router-dom";
-import { UserRegisrationInterface } from "./user-interface";
+import { UserInterface } from "./user-interface";
 
 export interface InterfaceViewProductProps {
     productId: Params<string>
@@ -12,5 +12,5 @@ export interface InterfaceProductListProps {
 }
 
 export interface ViewProfileInterface {
-    user: UserRegisrationInterface
+    user: UserInterface
 }

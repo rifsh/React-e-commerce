@@ -4,16 +4,16 @@ import React, { useContext, useEffect, useState } from "react";
 import { productService } from "../../services/product-service";
 import { FetchCategoriesResponse } from "../../model/interfaces/categories-interface";
 import { NavBarContext } from "./NavBarContext";
-import { Skeleton } from "@mui/material";
-import { FaRegUserCircle } from "react-icons/fa";
+import { Avatar, Skeleton } from "@mui/material";
 import { userService } from "../../services/user-service";
+import { deepPurple } from '@mui/material/colors';
 
 const NavBar: React.FC = () => {
     const item: number[] = [1, 2, 3, 4];
     const userId: string = localStorage.getItem('userId');
-    const [userImage, setImage] = useState<{ image: string, loading: boolean }>({
+    const [userImage, setImage] = useState<{ image: string, name: string }>({
         image: '',
-        loading: true
+        name: '',
     });
     const [showCategories, setShowCategories] = useState<boolean>(false);
     const [isLogged, setIsLogged] = useState<boolean>();
@@ -51,10 +51,9 @@ const NavBar: React.FC = () => {
         }
 
         const fetchUser = async () => {
-            setImage({ ...userImage, loading: true });
             try {
                 const user = await userService.fetchUserById(userId);
-                setImage({ ...userImage, image: user.data.data.image, loading: false });
+                user.data.data.image ? setImage({ ...userImage, image: user.data.data.image }) : setImage({ ...userImage, name: user.data.data.name });
             } catch (error) {
                 console.log(error);
             }
@@ -148,11 +147,11 @@ const NavBar: React.FC = () => {
 
                         {/* Profile Picture */}
                         {userId && (
-                            <div className="h-12 w-12 rounded-full overflow-hidden">
-                                <Link to={'/user'}>
-                                    {!userImage && <FaRegUserCircle className="text-5xl" />}
-                                    {userImage.loading && <Skeleton variant="rounded" animation='wave' width={100} height={100} />}
-                                    {userImage && <img src={userImage.image} className="rounded-full" alt="User" />}
+                            <div className='cursor-pointer'>
+                                <Link to={'/user'} className='object-cover'>
+                                    {userImage.image && <Avatar alt="RM" sx={{ width: 50, height: 50 }} src={userImage.image} />
+                                    }
+                                    {!userImage.image && <Avatar sx={{ bgcolor: deepPurple[500], fontWeight: 'bold', width: 44, height: 44 }}>{userImage.name[0]?.toUpperCase()}</Avatar>}
                                 </Link>
                             </div>
                         )}

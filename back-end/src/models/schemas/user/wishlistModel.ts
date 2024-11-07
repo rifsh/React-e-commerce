@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import wishlistInterface from '../interfaces/user/wishlist';
+import wishlistInterface from '../../interfaces/user/wishlist';
 import { producModel } from '../product/productsmodel';
 
 const wishListSchema = new mongoose.Schema({

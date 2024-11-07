@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import jwt from "jsonwebtoken";
 import { CustomeError } from "../utils/customerror";
 import { NextFunction, Request, Response } from "express";
-import { Users } from "../models/user/usermodel";
+import { Users } from "../models/schemas/user/usermodel";
 import path from "path";
 import catchAsync from "../utils/asyncHandler";
 

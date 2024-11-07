@@ -1,45 +1,31 @@
 import { useState } from "react";
 import CommonForm from "../../components/commmon/form";
 import { registrationFormControls } from "../../config/form";
-import { UserRegisrationInterface } from "../../model/interfaces/user-interface";
+import { UserRegistrationInterface } from "../../model/interfaces/user-interface";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { authService } from "../../services/auth-service";
 import { Bounce, toast } from "react-toastify";
 
-const inetialState: UserRegisrationInterface = {
-    _id: '',
+const inetialState: UserRegistrationInterface = {
     name: '',
     userName: '',
     email: '',
     image: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
 }
 
 export default function AuthRegister() {
 
-    const [regFormData, setRegFormData] = useState<UserRegisrationInterface>(inetialState);
-    const [image, setImage] = useState(null);
+    const [regFormData, setRegFormData] = useState<UserRegistrationInterface>(inetialState);
     const navigate: NavigateFunction = useNavigate()
-    const [loading, setLoading] = useState<boolean>(false)
-
-    const imageGetting = (message) => {
-        if (message) {
-            setRegFormData((prev) => ({
-                ...prev,
-                image: message
-            }))
-            const reader: FileReader = new FileReader();
-            reader.onload = () => {
-                setImage(reader.result as string);
-            }
-            reader.readAsDataURL(message);
-        }
-    }
+    const [loading, setLoading] = useState<boolean>(false);
 
     const submit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        console.log(regFormData);
+        
         const response = await authService.userRegistration(regFormData);
         if (response?.data.status === 'Success') {
             toast.success('Account created', {
@@ -68,11 +54,7 @@ export default function AuthRegister() {
                     <Link to={'/auth/login'}>Login</Link></span></p>
             </div>
             <div className="w-full mt-3 flex flex-col items-center">
-                <div className="bg-gray-400 w-32 h-32 rounded-full overflow-hidden">
-                    <img src={image} id="profile-img" className="object-cover w-32 h-32" alt="" />
-                </div>
                 <CommonForm
-                    imageStr={imageGetting}
                     formControls={registrationFormControls}
                     buttonValue="Sign up"
                     formData={regFormData}

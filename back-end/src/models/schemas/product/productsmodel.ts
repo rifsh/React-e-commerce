@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Product } from "../interfaces/products_interface";
+import { Product } from "../../interfaces/products_interface";
 
 function required(result: string): string {
     return `${result} is a required field`

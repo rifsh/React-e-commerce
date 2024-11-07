@@ -22,13 +22,13 @@ export const registrationFormControls: FormControllsInterface[] = [
         componentType: 'input',
         type: 'email'
     },
-    {
-        name: 'image',
-        label: 'Profile',
-        placeholder: 'Profile image',
-        componentType: 'input',
-        type: 'file'
-    },
+    // {
+    //     name: 'image',
+    //     label: 'Profile',
+    //     placeholder: 'Profile image',
+    //     componentType: 'input',
+    //     type: 'file'
+    // },
     {
         name: 'password',
         label: 'Password',

@@ -8,21 +8,16 @@ interface CommonFormProps<T> {
     formData?: T,
     setFormData?: React.Dispatch<SetStateAction<T>>
     buttonValue?: string
-    imageStr?: (message: string) => void;
     loading?: boolean,
 }
 
-const CommonForm = <T extends Record<string, any>>({ formControls, formData, setFormData, onSubmit, buttonValue, imageStr, loading }: CommonFormProps<T>) => {
-
-    const imageHandler = (e) => {
-        const file = e.target.files[0];
-        imageStr(file);
-    }
+const CommonForm = <T extends Record<string, any>>({ formControls, formData, setFormData, onSubmit, buttonValue, loading }: CommonFormProps<T>) => {
 
     const renderInputsByComponentTypes = (controlItem: FormControllsInterface): JSX.Element => {
 
         let element: JSX.Element | null = null;
         const value = formData[controlItem.name];
+        
         switch (controlItem.componentType) {
             case 'input':
                 element = <input
@@ -34,7 +29,6 @@ const CommonForm = <T extends Record<string, any>>({ formControls, formData, set
                     value={controlItem.type === 'file' ? '' : value}
                     onChange={(e) => {
                         setFormData({ ...formData, [controlItem.name]: e.target.value })
-                        controlItem.type === 'file' ? imageHandler(e) : undefined
                     }}
                     accept="image/*"
                 />

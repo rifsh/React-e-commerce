@@ -1,5 +1,5 @@
 import mongoose, { Schema, Types } from "mongoose";
-import { OrderInterface } from "../interfaces/user/userOrder";
+import { OrderInterface } from "../../interfaces/user/userOrder";
 import { Users } from "./usermodel";
 import { producModel } from "../product/productsmodel";
 
