@@ -3,7 +3,7 @@ import { UserInterface } from "../../model/interfaces/user-interface";
 import { userService } from "../../services/user-service";
 import { NavBarContext } from "../../components/user/NavBarContext";
 
-const userFetch = (userId: string): {
+const userFetch = (userId: string, v?:boolean): {
     userData: UserInterface | null,
     loading: boolean,
     error: string
@@ -12,7 +12,7 @@ const userFetch = (userId: string): {
     const [userData, setUserData] = useState<UserInterface | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>(null);
-    const context = useContext(NavBarContext);
+    const {setData} = useContext(NavBarContext);
 
     const fetchUserById = async () => {
         setLoading(true);
@@ -27,11 +27,12 @@ const userFetch = (userId: string): {
 
     useEffect(() => {
         fetchUserById();
-    }, [userId]);
+        
+    }, [userId, v]);
 
     const refetchUserData = () => {
-        fetchUserById();
-        context.setData('updated');
+        setData(Math.random().toString());
+        fetchUserById();    
     };
 
     return { userData, loading, error, refetchUserData }

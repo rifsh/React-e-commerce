@@ -24,12 +24,13 @@ function Layout() {
     }
     return (
         <NavBarProvider>
-            <div className="min-h-screen">
-                {url.pathname !== '/cart' && <div className="fixed top-0 z-50 w-full">
+            <div className="min-h-screen overflow-y-scroll">
+                {url.pathname !== '/cart' && <div className="fixed z-50 w-full">
                     <NavBar />
                 </div>}
-                <div className="mt-24" style={{
-                    padding: url.pathname !== '/' ? '20px 30px': '0px'
+                <div style={{
+                    padding: url.pathname !== '/' ? '20px 30px' : '0px',
+                    marginTop: url.pathname !== '/cart' ? '90px' : '0px'
                 }}>
                     <Outlet />
                 </div>

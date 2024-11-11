@@ -3,7 +3,7 @@ import ProfileView from "./profileView";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { NavBarContext } from "./NavBarContext";
 import EditProfile from "./editProfile";
-import { Avatar, Box, CircularProgress } from "@mui/material";
+import { Alert, Avatar, Box, CircularProgress } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import { userService } from "../../services/user-service";
 import userFetch from "../../hooks/user/user";
@@ -12,7 +12,7 @@ const Profile = () => {
     const [pageCondition, setPageCondition] = useState<boolean>(false);
     const context = useContext(NavBarContext);
     const [loading, setLoading] = useState<boolean>(false);
-    const { userData, refetchUserData } = userFetch(context.userId);
+    const { userData, refetchUserData } = userFetch(context.userId, loading);
 
     const handlePage = () => {
         setPageCondition(true);
@@ -47,19 +47,22 @@ const Profile = () => {
 
     return (
         <div className="mt-5 flex items-start">
+            <Alert className="absolute bottom-0" severity="info">This is an info Alert.</Alert>
+
             {/* Image */}
             <div className="min-w-[300px] max-w-[100px]">
                 <div className="h-[330px] flex items-center justify-center relative">
-                    {loading && <Box sx={{ display: 'flex', position: 'absolute', zIndex: '1' }}>
+                    {loading && 
+                    <Box sx={{ display: 'flex', position: 'absolute', zIndex: '1' }}>
                         <CircularProgress />
-                    </Box>}
+                    </Box>
+                    }
                     {userData?.image ? (
                         <Avatar
                             alt="User Image"
                             src={userData?.image}
                             sx={{ width: 200, height: 200, ...(loading ? { opacity: '0.4' } : { opacity: '1' }) }}
                         />
-
                     ) : (
                         <Avatar
                             sx={{ bgcolor: deepPurple[500], fontWeight: 'bold', fontSize: '100px', width: 200, height: 200 }}
@@ -67,7 +70,7 @@ const Profile = () => {
                             {userData?.name?.[0]?.toUpperCase()}
                         </Avatar>
                     )}
-                    {pageCondition && <div className="cursor-pointer rounded-full w-14 h-14 bg-white absolute bottom-[70px] right-[70px] z-10 flex items-center justify-center">
+                    {pageCondition && !loading && <div className="cursor-pointer rounded-full w-14 h-14 bg-white absolute bottom-[70px] right-[70px] z-10 flex items-center justify-center">
                         <CameraAltIcon
                             onClick={handleIconClick}
                             fontSize="large"
@@ -76,7 +79,7 @@ const Profile = () => {
                         <input
                             type="file"
                             ref={fileInputRef}
-                            style={{ display: 'none' }}
+                            style={{ display: 'none', opacity: '0.1'}}
                             onChange={handleFileChange}
                         />
                     </div>}
